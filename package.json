@@ -1,0 +1,23 @@
+{
+  "name": "v3",
+  "version": "1.0.0",
+  "description": "",
+  "main": ".eslintrc.js",
+  "dependencies": {
+    "dotenv": "^5.0.0",
+    "express": "^4.16.2",
+    "pg": "^7.4.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "eslint": "eslint *.js **/*.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
