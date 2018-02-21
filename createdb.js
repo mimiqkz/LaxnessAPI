@@ -5,7 +5,7 @@ const util = require('util');
 
 const { Client } = require('pg');
 
-const connectionString = process.env.DATABASE_URL;
+const connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost/postgres';
 
 const readFileAsync = util.promisify(fs.readFile);
 
@@ -40,3 +40,4 @@ async function create() {
 create().catch((err) => {
   console.error('Error creating schema', err);
 });
+
