@@ -15,5 +15,17 @@ function catchErrors(fn) {
 }
 
 /* todo útfæra api */
+app.get('/', (req, res) => {
+  res.json(readAll);
+});
+app.post('/', (req, res) => {
+  const { body: {
+    titli = '',
+    texti = '',
+  }
+ } = req.body;
+ console.log(titli);
+});
+
 
 module.exports = router;
