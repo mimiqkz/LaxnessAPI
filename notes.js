@@ -1,5 +1,8 @@
 /* todo sækja pakka sem vantar  */
-const { saveToDb } = require('./db');
+const {
+  saveToDb,
+  fetchData,
+} = require('./db');
 const xss = require('xss');
 
 /**
@@ -13,16 +16,15 @@ const xss = require('xss');
  * @returns {Promise} Promise representing the object result of creating the note
  */
 async function create({ title, text, datetime } = {}) {
-  const data = {
-    title: xss(title),
-    text: xss(text),
-    datetime: xss(datetime),
-  };
-  try {
-    await saveToDb(data);
-  } catch (error) {
-    console.error(error);
-  }
+  return new Promise(async (resolve) => {
+    const data = {
+      title: xss(title),
+      text: xss(text),
+      datetime: xss(datetime),
+    };
+    const r = await saveToDb(data);
+    return resolve(r);
+  });
 }
 
 /**
@@ -31,7 +33,10 @@ async function create({ title, text, datetime } = {}) {
  * @returns {Promise} Promise representing an array of all note objects
  */
 async function readAll() {
-  
+  return new Promise(async (resolve) => {
+    const r = await fetchData();
+    return resolve(r);
+  });
 }
 
 /**

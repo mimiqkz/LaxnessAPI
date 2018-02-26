@@ -20,13 +20,14 @@ async function getAndInsert(req, res) {
     text = '',
     datetime = '',
   } = req.body;
-  await create({ title, text, datetime });
-  res.json({ title: title, text: text, datetime: datetime }); // eslint-disable-line
+  const r = await create({ title, text, datetime });
+  res.json(r[0]); // eslint-disable-line
 }
 
 /* todo útfæra api */
-router.get('/', (req, res) => {
-  res.json(readAll);
+router.get('/', async (req, res) => {
+  const r = await readAll();
+  res.json(r);
 });
 router.post('/', getAndInsert);
 

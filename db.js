@@ -7,10 +7,13 @@ async function saveToDb(data) {
 
   await client.connect();
 
-  const query = 'INSERT INTO notes(title, text, datetime ) VALUES($1, $2, $3 )';
+  const query = 'INSERT INTO notes(title, text, datetime ) VALUES($1, $2, $3 ) RETURNING *';
   const values = [data.title, data.text, data.datetime];
   try {
-    await client.query(query, values);
+    const result = await client.query(query, values);
+
+    const { rows } = result;
+    return rows;
   } catch (err) {
     console.error('Error inserting data');
     throw err;
@@ -24,7 +27,7 @@ async function fetchData() {
   await client.connect();
 
   try {
-    const result = await client.query('SELECT * FROM orders');
+    const result = await client.query('SELECT * FROM notes');
 
     const { rows } = result;
     return rows;
