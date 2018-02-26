@@ -15,10 +15,10 @@ function catchErrors(fn) {
 }
 
 /* todo útfæra api */
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.json(readAll);
 });
-app.post('/', (req, res) => {
+router.post('/', (req, res) => {
   const { body: {
     titli = '',
     texti = '',
