@@ -10,7 +10,7 @@ const {
 
 const router = express.Router();
 
-function catchErrors(fn) {
+function catchErrors(fn) { // eslint-disable-line
   return (req, res, next) => fn(req, res, next).catch(next);
 }
 
@@ -19,12 +19,15 @@ router.get('/', (req, res) => {
   res.json(readAll);
 });
 router.post('/', (req, res) => {
-  const { body: {
-    titli = '',
-    texti = '',
-  }
- } = req.body;
- console.log(titli);
+  const {
+    body: {
+      title = '',
+      text = '',
+      datetime = '',
+    } = {},
+  } = req;
+  create(title, text, datetime);
+  res.json({ title: title, text: text, datetime: datetime }); // eslint-disable-line
 });
 
 
