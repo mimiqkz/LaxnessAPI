@@ -2,6 +2,7 @@
 const {
   saveToDb,
   fetchData,
+  runQuery,
 } = require('./db');
 const xss = require('xss');
 
@@ -47,7 +48,11 @@ async function readAll() {
  * @returns {Promise} Promise representing the note object or null if not found
  */
 async function readOne(id) {
-  /* todo útfæra */
+  return new Promise(async (resolve) => {
+    const qurey = `SELECT * FROM notes WHERE id =  ${id} `;
+    const r = await runQuery(qurey);
+    return resolve(r);
+  });
 }
 
 /**
