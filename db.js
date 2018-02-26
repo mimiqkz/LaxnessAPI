@@ -1,15 +1,14 @@
 const { Client } = require('pg');
 
-const connectionString = process.env.DATABASE_URL || 'postgres://:@localhost/v2';
+const connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost/postgres';
 
 async function saveToDb(data) {
   const client = new Client({ connectionString });
 
   await client.connect();
 
-  const query = 'INSERT INTO orders(name, email, ssn, amount) VALUES($1, $2, $3, $4)';
-  const values = [data.name, data.email, data.ssn, data.amount];
-
+  const query = 'INSERT INTO notes(title, text, datetime ) VALUES($1, $2, $3 )';
+  const values = [data.title, data.text, data.datetime];
   try {
     await client.query(query, values);
   } catch (err) {
