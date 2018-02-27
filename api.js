@@ -48,7 +48,7 @@ router.put('/:slug', async (req, res) => {
   res.json(u);
 });
 
-router.delete(':slug', async (req, res) => {
+router.delete('/:slug', async (req, res) => {
   // curl -X DELETE http://localhost:3000/1
   await del(req.url.substring(1));
   res.send(null);
