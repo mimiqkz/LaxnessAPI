@@ -44,12 +44,13 @@ router.put('/:slug', async (req, res) => {
     datetime = '',
   } = req.body;
   const u = await update(req.url.substring(1), { title, text, datetime });
+  console.info(u);
   res.json(u);
 });
 
 router.delete(':slug', async (req, res) => {
   // curl -X DELETE http://localhost:3000/1
-  await del();
+  await del(req.url.substring(1));
   res.send(null);
 });
 

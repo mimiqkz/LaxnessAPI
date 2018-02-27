@@ -68,12 +68,15 @@ async function readOne(id) {
  */
 async function update(id, { title, text, datetime } = {}) {
   return new Promise(async (resolve) => {
-    const data = {
+    const data = { // eslint-disable-line
       title: xss(title),
       text: xss(text),
       datetime: xss(datetime),
     };
-    return resolve(data);
+    // 'INSERT INTO notes(title, text, datetime ) VALUES($1, $2, $3 ) RETURNING *'
+    const qurey = `UPDATE notes SET title = '${title}', text = '${text}', datetime = '${datetime}' WHERE id =  ${id} RETURNING *`;
+    const response = await runQuery(qurey);
+    return resolve(response[0]);
   });
 }
 
@@ -85,7 +88,11 @@ async function update(id, { title, text, datetime } = {}) {
  * @returns {Promise} Promise representing the boolean result of creating the note
  */
 async function del(id) {
-  /* todo útfæra */
+  return new Promise(async (resolve) => {
+    const qurey = `DELETE FROM notes WHERE id = ${id} RETURNING *`;
+    const result = await runQuery(qurey);
+    return resolve(result);
+  });
 }
 
 module.exports = {
