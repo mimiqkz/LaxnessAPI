@@ -17,15 +17,13 @@ const xss = require('xss');
  * @returns {Promise} Promise representing the object result of creating the note
  */
 async function create({ title, text, datetime } = {}) {
-  return new Promise(async (resolve) => {
-    const data = {
-      title: xss(title),
-      text: xss(text),
-      datetime: xss(datetime),
-    };
-    const r = await saveToDb(data);
-    return resolve(r);
-  });
+  const data = {
+    title: xss(title),
+    text: xss(text),
+    datetime: xss(datetime),
+  };
+  const r = await saveToDb(data);
+  return r;
 }
 
 /**
@@ -34,10 +32,8 @@ async function create({ title, text, datetime } = {}) {
  * @returns {Promise} Promise representing an array of all note objects
  */
 async function readAll() {
-  return new Promise(async (resolve) => {
-    const r = await fetchData();
-    return resolve(r);
-  });
+  const r = await fetchData();
+  return r;
 }
 
 /**
@@ -48,11 +44,9 @@ async function readAll() {
  * @returns {Promise} Promise representing the note object or null if not found
  */
 async function readOne(id) {
-  return new Promise(async (resolve) => {
-    const qurey = `SELECT * FROM notes WHERE id =  ${id} `;
-    const r = await runQuery(qurey);
-    return resolve(r);
-  });
+  const qurey = `SELECT * FROM notes WHERE id =  ${id} `;
+  const r = await runQuery(qurey);
+  return r;
 }
 
 /**
@@ -67,17 +61,15 @@ async function readOne(id) {
  * @returns {Promise} Promise representing the object result of creating the note
  */
 async function update(id, { title, text, datetime } = {}) {
-  return new Promise(async (resolve) => {
     const data = { // eslint-disable-line
-      title: xss(title),
-      text: xss(text),
-      datetime: xss(datetime),
-    };
-    // 'INSERT INTO notes(title, text, datetime ) VALUES($1, $2, $3 ) RETURNING *'
-    const qurey = `UPDATE notes SET title = '${title}', text = '${text}', datetime = '${datetime}' WHERE id =  ${id} RETURNING *`;
-    const response = await runQuery(qurey);
-    return resolve(response[0]);
-  });
+    title: xss(title),
+    text: xss(text),
+    datetime: xss(datetime),
+  };
+  // 'INSERT INTO notes(title, text, datetime ) VALUES($1, $2, $3 ) RETURNING *'
+  const qurey = `UPDATE notes SET title = '${title}', text = '${text}', datetime = '${datetime}' WHERE id =  ${id} RETURNING *`;
+  const response = await runQuery(qurey);
+  return response;
 }
 
 /**
@@ -88,11 +80,9 @@ async function update(id, { title, text, datetime } = {}) {
  * @returns {Promise} Promise representing the boolean result of creating the note
  */
 async function del(id) {
-  return new Promise(async (resolve) => {
-    const qurey = `DELETE FROM notes WHERE id = ${id} RETURNING *`;
-    const result = await runQuery(qurey);
-    return resolve(result);
-  });
+  const qurey = `DELETE FROM notes WHERE id = ${id}`;
+  const result = await runQuery(qurey);
+  return result.rowCount === 1;
 }
 
 module.exports = {
