@@ -67,7 +67,14 @@ async function readOne(id) {
  * @returns {Promise} Promise representing the object result of creating the note
  */
 async function update(id, { title, text, datetime } = {}) {
-  /* todo útfæra */
+  return new Promise(async (resolve) => {
+    const data = {
+      title: xss(title),
+      text: xss(text),
+      datetime: xss(datetime),
+    };
+    return resolve(data);
+  });
 }
 
 /**
