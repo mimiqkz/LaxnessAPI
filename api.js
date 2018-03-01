@@ -36,7 +36,7 @@ async function getAndInsert(req, res) {
 /* todo útfæra api */
 router.get('/', async (req, res) => {
   const r = await readAll();
-  res.json(r);
+  res.json(r[0]);
 });
 router.post('/', validation, getAndInsert);
 
@@ -59,8 +59,12 @@ router.put('/:slug', validation, async (req, res) => {
 
 router.delete('/:slug', async (req, res) => {
   // curl -X DELETE http://localhost:3000/1
-  await del(req.params.slug);
-  res.send(null);
+  const tokst = await del(req.params.slug);
+  if (tokst) {
+    res.send(null);
+  } else {
+    res.json({ mesage: 'node not found' });
+  }
 });
 
 module.exports = router;
