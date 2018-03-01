@@ -1,3 +1,5 @@
+const { validationResult } = require('express-validator/check');
+
 const express = require('express');
 
 const {
@@ -6,6 +8,7 @@ const {
   readOne,
   update,
   del,
+  validation,
 } = require('./notes');
 
 const router = express.Router();
@@ -20,8 +23,14 @@ async function getAndInsert(req, res) {
     text = '',
     datetime = '',
   } = req.body;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const errorMessages = errors.array().map(i => ({ field: i.params, error: i.msg }));
+    return res.status(404).json(errorMessages[0]);
+  }
   const r = await create({ title, text, datetime });
-  res.json(r[0]); // eslint-disable-line
+  return res.json(r[0]); // eslint-disable-line
 }
 
 /* todo útfæra api */
@@ -29,14 +38,14 @@ router.get('/', async (req, res) => {
   const r = await readAll();
   res.json(r);
 });
-router.post('/', getAndInsert);
+router.post('/', validation, getAndInsert);
 
 router.get('/:slug', async (req, res) => {
   const r = await readOne(req.url.substring(1));
   res.json(r[0]);
 });
 
-router.put('/:slug', async (req, res) => {
+router.put('/:slug', validation, async (req, res) => {
   // curl -X PUT -H "Content-Type: application/json" -d '{"title": "Bless", "text": "", "datetime": "2018-02-18"}' http://localhost:3000/1
   const {
     title = '',
@@ -50,7 +59,7 @@ router.put('/:slug', async (req, res) => {
 
 router.delete('/:slug', async (req, res) => {
   // curl -X DELETE http://localhost:3000/1
-  await del(req.url.substring(1));
+  await del(req.params.slug);
   res.send(null);
 });
 

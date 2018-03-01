@@ -4,6 +4,26 @@ const {
   fetchData,
   runQuery,
 } = require('./db');
+const { check } = require('express-validator/check');
+const { sanitize } = require('express-validator/filter');
+
+const validation = [
+  check('title')
+    .isLength({ min: 1, max: 255 })
+    .withMessage('Title must be a string of length 1 to 255 characters'),
+
+  check('text')
+    .custom(e => typeof (e) === 'string')
+    .withMessage('Text must be a string'),
+
+  check('datetime')
+    .isISO8601('datetime')
+    .withMessage('Datetime must be a ISO 8601 date'),
+
+  sanitize('title').trim(),
+];
+
+
 const xss = require('xss');
 
 /**
@@ -66,7 +86,6 @@ async function update(id, { title, text, datetime } = {}) {
     text: xss(text),
     datetime: xss(datetime),
   };
-  // 'INSERT INTO notes(title, text, datetime ) VALUES($1, $2, $3 ) RETURNING *'
   const qurey = `UPDATE notes SET title = '${title}', text = '${text}', datetime = '${datetime}' WHERE id =  ${id} RETURNING *`;
   const response = await runQuery(qurey);
   return response;
@@ -91,4 +110,5 @@ module.exports = {
   readOne,
   update,
   del,
+  validation,
 };
