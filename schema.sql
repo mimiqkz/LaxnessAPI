@@ -1,6 +1,6 @@
-CREATE TABLE notes (
+CREATE TABLE quotes (
   id serial primary key,
-  datetime timestamp with time zone NOT NULL,
-  title character varying(255) NOT NULL,
-  text text NOT NULL
+  year timestamp with time zone NOT NULL,
+  book character varying(255) NOT NULL,
+  quote text NOT NULL
 );

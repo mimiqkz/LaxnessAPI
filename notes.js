@@ -1,4 +1,3 @@
-/* todo sækja pakka sem vantar  */
 const {
   saveToDb,
   fetchData,
@@ -8,46 +7,46 @@ const { check } = require('express-validator/check');
 const { sanitize } = require('express-validator/filter');
 
 const validation = [
-  check('title')
+  check('book')
     .isLength({ min: 1, max: 255 })
     .withMessage('Title must be a string of length 1 to 255 characters'),
 
-  check('text')
+  check('quote')
     .custom(e => typeof (e) === 'string')
     .withMessage('Text must be a string'),
 
-  check('datetime')
+  check('year')
     .isISO8601('datetime')
     .withMessage('Datetime must be a ISO 8601 date'),
 
-  sanitize('title').trim(),
+  sanitize('book').trim(),
 ];
 
 
 const xss = require('xss');
 
 /**
- * Create a note asynchronously.
+ * Create a qoute asynchronously.
  *
- * @param {Object} note - Note to create
- * @param {string} note.title - Title of note
- * @param {string} note.text - Text of note
- * @param {string} note.datetime - Datetime of note
+ * @param {Object} quote - Note to create
+ * @param {string} quote.book - Title of note
+ * @param {string} quote.quote - Text of note
+ * @param {string} quote.year - Datetime of note
  *
  * @returns {Promise} Promise representing the object result of creating the note
  */
-async function create({ title, text, datetime } = {}) {
+async function create({ book, quote, year } = {}) {
   const data = {
-    title: xss(title),
-    text: xss(text),
-    datetime: xss(datetime),
+    book: xss(book),
+    quote: xss(quote),
+    year: xss(year),
   };
   const r = await saveToDb(data);
   return r;
 }
 
 /**
- * Read all notes.
+ * Read all qoute.
  *
  * @returns {Promise} Promise representing an array of all note objects
  */
@@ -57,42 +56,42 @@ async function readAll() {
 }
 
 /**
- * Read a single note.
+ * Read a single qoute.
  *
  * @param {number} id - Id of note
  *
  * @returns {Promise} Promise representing the note object or null if not found
  */
 async function readOne(id) {
-  const qurey = `SELECT * FROM notes WHERE id =  ${id} `;
+  const qurey = `SELECT * FROM quotes WHERE id =  ${id} `;
   const r = await runQuery(qurey);
   return r;
 }
 
 /**
- * Update a note asynchronously.
+ * Update a qoute asynchronously.
  *
  * @param {number} id - Id of note to update
- * @param {Object} note - Note to create
- * @param {string} note.title - Title of note
- * @param {string} note.text - Text of note
- * @param {string} note.datetime - Datetime of note
+ * @param {Object} quote - Note to create
+ * @param {string} quote.title - Title of note
+ * @param {string} quote.text - Text of note
+ * @param {string} quote.year - Datetime of note
  *
  * @returns {Promise} Promise representing the object result of creating the note
  */
-async function update(id, { title, text, datetime } = {}) {
+async function update(id, { book, quote, year } = {}) {
     const data = { // eslint-disable-line
-    title: xss(title),
-    text: xss(text),
-    datetime: xss(datetime),
+    book: xss(book),
+    quote: xss(quote),
+    year: xss(year),
   };
-  const qurey = `UPDATE notes SET title = '${title}', text = '${text}', datetime = '${datetime}' WHERE id =  ${id} RETURNING *`;
+  const qurey = `UPDATE quotes SET title = '${book}', text = '${quote}', datetime = '${year}' WHERE id =  ${id} RETURNING *`;
   const response = await runQuery(qurey);
   return response;
 }
 
 /**
- * Delete a note asynchronously.
+ * Delete a quote asynchronously.
  *
  * @param {number} id - Id of note to delete
  *

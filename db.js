@@ -7,8 +7,8 @@ async function saveToDb(data) {
 
   await client.connect();
 
-  const query = 'INSERT INTO notes(title, text, datetime ) VALUES($1, $2, $3 ) RETURNING *';
-  const values = [data.title, data.text, data.datetime];
+  const query = 'INSERT INTO quotes(book, quote, year ) VALUES($1, $2, $3 ) RETURNING *';
+  const values = [data.book, data.quote, data.year];
   try {
     const result = await client.query(query, values);
 
@@ -27,7 +27,7 @@ async function fetchData() {
   await client.connect();
 
   try {
-    const result = await client.query('SELECT * FROM notes');
+    const result = await client.query('SELECT * FROM quotes');
 
     const { rows } = result;
     return rows;
