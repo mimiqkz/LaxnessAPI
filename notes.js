@@ -1,8 +1,6 @@
-const {
-  saveToDb,
-  fetchData,
-  runQuery,
-} = require('./db');
+/* todo sækja pakka sem vantar  */
+const db = require('./db.js');
+const xss = require('xss');
 const { check } = require('express-validator/check');
 const { sanitize } = require('express-validator/filter');
 
@@ -16,98 +14,109 @@ const validation = [
     .withMessage('Text must be a string'),
 
   check('year')
-    .isISO8601('datetime')
-    .withMessage('Datetime must be a ISO 8601 date'),
+    .isISO8601('year')
+    .withMessage('year must be a ISO 8601 date'),
 
   sanitize('book').trim(),
 ];
 
-
-const xss = require('xss');
-
 /**
- * Create a qoute asynchronously.
+ * Create a book asynchronously.
  *
- * @param {Object} quote - Note to create
- * @param {string} quote.book - Title of note
- * @param {string} quote.quote - Text of note
- * @param {string} quote.year - Datetime of note
+ * @param {Object} book - book to create
+ * @param {string} book.book - Title of book
+ * @param {string} book.title - Quote of book
+ * @param {string} book.year - Year of book
  *
- * @returns {Promise} Promise representing the object result of creating the note
+ * @returns {Promise} Promise representing the object result of creating the book
  */
 async function create({ book, quote, year } = {}) {
+  /* todo útfæra */
   const data = {
     book: xss(book),
     quote: xss(quote),
     year: xss(year),
   };
-  const r = await saveToDb(data);
-  return r;
+
+  const query = await db.saveToDb(data);
+  return query;
 }
 
 /**
- * Read all qoute.
+ * Read all quotes.
  *
- * @returns {Promise} Promise representing an array of all note objects
+ * @returns {Promise} Promise representing an array of all book objects
  */
 async function readAll() {
-  const r = await fetchData();
-  return r;
+  /* todo útfæra */
+  let query = null;
+  try {
+    query = await db.fetchData();
+    return query;
+  } catch (err) { console.error(err); }
+  return query;
 }
 
 /**
- * Read a single qoute.
+ * Read a single book.
  *
- * @param {number} id - Id of note
+ * @param {number} id - Id of book
  *
- * @returns {Promise} Promise representing the note object or null if not found
+ * @returns {Promise} Promise representing the book object or null if not found
  */
 async function readOne(id) {
-  const qurey = `SELECT * FROM quotes WHERE id =  ${id} `;
-  const r = await runQuery(qurey);
-  return r;
+  /* todo útfæra */
+  let query = null;
+  try {
+    query = await db.runQuery(`SELECT * FROM quotes WHERE id = ${id}`);
+    return query;
+  } catch (err) { console.error(err); }
+  return query;
 }
 
 /**
- * Update a qoute asynchronously.
+ * Update a book asynchronously.
  *
- * @param {number} id - Id of note to update
- * @param {Object} quote - Note to create
- * @param {string} quote.title - Title of note
- * @param {string} quote.text - Text of note
- * @param {string} quote.year - Datetime of note
+ * @param {number} id - Id of book to update
+ * @param {Object} book - book to create
+ * @param {string} book.book - Title of book
+ * @param {string} book.quote - Quote of the book
+ * @param {string} book.year - year of book
  *
- * @returns {Promise} Promise representing the object result of creating the note
+ * @returns {Promise} Promise representing the object result of creating the book
  */
 async function update(id, { book, quote, year } = {}) {
-    const data = { // eslint-disable-line
+  /* todo útfæra */
+  const data = {
     book: xss(book),
     quote: xss(quote),
     year: xss(year),
   };
-  const qurey = `UPDATE quotes SET title = '${book}', text = '${quote}', datetime = '${year}' WHERE id =  ${id} RETURNING *`;
-  const response = await runQuery(qurey);
-  return response;
+  const query = await db.runQuery(`UPDATE quotes
+  SET year = '${data.year}', book = '${data.book}', quote = '${data.quote}'
+  WHERE id = ${id} RETURNING *`);
+  return query;
 }
 
 /**
- * Delete a quote asynchronously.
+ * Delete a book asynchronously.
  *
- * @param {number} id - Id of note to delete
+ * @param {number} id - Id of book to delete
  *
- * @returns {Promise} Promise representing the boolean result of creating the note
+ * @returns {Promise} Promise representing the boolean result of creating the book
  */
 async function del(id) {
-  const qurey = `DELETE FROM notes WHERE id = ${id}`;
-  const result = await runQuery(qurey);
-  return result.rowCount === 1;
+  const query = await db.runQuery(`WITH deleted AS 
+  (DELETE FROM quotes WHERE id = ${id} RETURNING *) 
+  SELECT count(*) FROM deleted`);
+  return query;
 }
 
 module.exports = {
+  validation,
   create,
   readAll,
   readOne,
   update,
   del,
-  validation,
 };
