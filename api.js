@@ -16,7 +16,6 @@ function catchErrors(fn) {
   return (req, res, next) => fn(req, res, next).catch(next);
 }
 
-/* todo útfæra api */
 async function createData(req, res) {
   const {
     book = '',
