@@ -4,3 +4,8 @@ CREATE TABLE quotes (
   book character varying(255) NOT NULL,
   quote text NOT NULL
 );
+
+CREATE TABLE users (
+  username VARCHAR PRIMARY KEY,
+  password PASSWORD,
+)
