@@ -28,7 +28,12 @@ const {
   PORT: port = 3000,
   HOST: host = '127.0.0.1',
 } = process.env;
+try {
+  app.listen(port, () => {
+    console.info(`Server running at http://${host}:${port}/`);
+  });
+} catch (err) {
+  console.error('here');
+  console.error(err);
+}
 
-app.listen(port, () => {
-  console.info(`Server running at http://${host}:${port}/`);
-});

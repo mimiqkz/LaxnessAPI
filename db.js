@@ -1,7 +1,7 @@
 const { Client } = require('pg');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:1234@localhost/postgres';
+const connectionString = process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost/postgres';
 
 async function saveToDb(data) {
   const client = new Client({ connectionString });
@@ -57,6 +57,7 @@ async function runQuery(q) {
     await client.end();
   }
 }
+/*
 async function query(q, values = []) {
   const client = new Client({ connectionString });
   await client.connect();
@@ -73,6 +74,7 @@ async function query(q, values = []) {
 
   return result;
 }
+/*
 async function comparePasswords(password, hash) {
   const result = await bcrypt.compare(password, hash);
 
@@ -88,12 +90,10 @@ async function findByUsername(username) {
   }
 
   return null;
-}
+}*/
 
 module.exports = {
   saveToDb,
   fetchData,
   runQuery,
-  findByUsername,
-  comparePasswords,
 };

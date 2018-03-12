@@ -7,5 +7,5 @@ CREATE TABLE quotes (
 
 CREATE TABLE users (
   username VARCHAR PRIMARY KEY,
-  password PASSWORD,
+  password character varying(255) NOT NULL
 )
