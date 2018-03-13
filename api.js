@@ -62,7 +62,7 @@ async function deleteData(req, res) {
   }
   return res.json({ error: 'Note not found' });
 }
-router.post('/', validation, catchErrors(createData));
+router.post('/', ensureLoggedIn, validation, catchErrors(createData));
 
 router.get('/', async (req, res) => {
   readAll()
