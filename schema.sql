@@ -1,6 +1,9 @@
+DROP TABLE IF EXISTS quotes;
+DROP TABLE IF EXISTS users;
+
 CREATE TABLE quotes (
   id serial primary key,
-  year timestamp with time zone NOT NULL,
+  chapter character varying(225) NOT NULL,
   book character varying(255) NOT NULL,
   quote text NOT NULL
 );
