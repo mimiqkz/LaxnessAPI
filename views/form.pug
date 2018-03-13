@@ -1,0 +1,15 @@
+extends layout
+include mixins
+block content
+
+  if errors && errors.length > 0
+    ul.validation
+      each error in errors
+        li.validation__item: label(for=error.param)= error.msg
+
+  form.form(method="post", action="/")
+    +input('Qoute', 'name', data.name, isInvalid('name', errors))
+    +input('Book', 'book', data.book, isInvalid('book', errors))
+    +input('Chapter', 'chapter', data.chapter, isInvalid('chapter', errors))
+
+button.form__button Senda

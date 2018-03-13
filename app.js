@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const api = require('./api');
 const session = require('express-session');
 const passport = require('passport');
@@ -15,6 +16,9 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
 }));
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
 async function strat(username, password, done) {
   const user = await users.findByUsername(username);
