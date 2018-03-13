@@ -20,6 +20,8 @@ app.use(session({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 async function strat(username, password, done) {
   const user = await users.findByUsername(username);
 
@@ -94,7 +96,7 @@ app.post(
     failureRedirect: '/login',
   }),
   (req, res) => {
-    res.redirect('/admin');
+    res.json({ message: 'you are logged inn' });
   },
 );
 

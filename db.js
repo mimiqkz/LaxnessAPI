@@ -82,9 +82,8 @@ async function comparePasswords(password, hash) {
 }
 async function findByUsername(username) {
   const q = 'SELECT * FROM users WHERE username = $1';
-
+  console.info('halú');
   const result = await query(q, [username]);
-
   if (result.rowCount === 1) {
     return result.rows[0];
   }
