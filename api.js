@@ -10,6 +10,8 @@ const {
   del,
 } = require('./notes');
 
+const { ensureLoggedIn } = require('./utils.js');
+
 const router = express.Router();
 
 function catchErrors(fn) {
@@ -80,7 +82,7 @@ router.get('/:slug', async (req, res) => {
     .catch(err => console.error(err));
 }, catchErrors());
 
-router.put('/:slug', validation, catchErrors(updateData));
-router.delete('/:slug', catchErrors(deleteData));
+router.put('/:slug', ensureLoggedIn, validation, catchErrors(updateData));
+router.delete('/:slug', ensureLoggedIn, catchErrors(deleteData));
 
 module.exports = router;
