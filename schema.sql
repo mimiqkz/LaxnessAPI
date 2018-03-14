@@ -14,4 +14,4 @@ CREATE TABLE users (
   salt VARCHAR NOT NULL
 );
 
-INSERT INTO users (username, password, salt) VALUES('admin', 123, 123 );
+INSERT INTO users (username, password, salt) VALUES('admin', '$2a$11$zbNE18do5/UyiP1dnV2JDuOC9RHQvpSI/589vntikTiOIhr6YxF6O', 123 );
