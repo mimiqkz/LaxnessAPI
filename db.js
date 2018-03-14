@@ -8,8 +8,8 @@ async function saveToDb(data) {
 
   await client.connect();
 
-  const q = 'INSERT INTO quotes(book, quote, year) VALUES($1, $2, $3 ) RETURNING *';
-  const values = [data.book, data.quote, data.year];
+  const q = 'INSERT INTO quotes(book, quote, chapter) VALUES($1, $2, $3 ) RETURNING *';
+  const values = [data.book, data.quote, data.chapter];
   try {
     const result = await client.query(q, values);
 
