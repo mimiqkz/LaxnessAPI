@@ -96,7 +96,7 @@ app.post(
     failureRedirect: '/login',
   }),
   (req, res) => {
-    res.redirect('/');
+    res.redirect('/form');
   },
 );
 

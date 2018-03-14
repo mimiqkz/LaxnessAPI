@@ -62,7 +62,11 @@ async function deleteData(req, res) {
   }
   return res.json({ error: 'Note not found' });
 }
-router.post('/', ensureLoggedIn, validation, catchErrors(createData));
+router.post('/form', ensureLoggedIn, validation, catchErrors(createData));
+router.get('/form', (req, res) => {
+  const data = {};
+  res.render('form', { data, title: 'Form' });
+});
 
 router.get('/', async (req, res) => {
   readAll()
