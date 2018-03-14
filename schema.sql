@@ -9,9 +9,12 @@ CREATE TABLE quotes (
 );
 
 CREATE TABLE users (
-  username VARCHAR PRIMARY KEY,
+  id serial primary key,
+  username VARCHAR UNIQUE,
   password character varying(255) NOT NULL,
   salt VARCHAR NOT NULL
 );
 
 INSERT INTO users (username, password, salt) VALUES('admin', '$2a$11$zbNE18do5/UyiP1dnV2JDuOC9RHQvpSI/589vntikTiOIhr6YxF6O', 123 );
+
+INSERT INTO quotes (chapter, book, quote) VALUES('test', 'book', 'lalallaaaa');

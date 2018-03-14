@@ -90,10 +90,23 @@ async function findByUsername(username) {
   return null;
 }
 
+async function findById(id) {
+  const q = 'SELECT * FROM users WHERE id = $1';
+
+  const result = await query(q, [id]);
+
+  if (result.rowCount === 1) {
+    return result.rows[0];
+  }
+
+  return null;
+}
+
 module.exports = {
   saveToDb,
   fetchData,
   runQuery,
   comparePasswords,
   findByUsername,
+  findById,
 };
