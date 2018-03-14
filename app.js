@@ -97,7 +97,7 @@ app.post(
     failureRedirect: '/login',
   }),
   (req, res) => {
-    res.json({ message: 'you are logged inn' });
+    res.redirect('/');
   },
 );
 

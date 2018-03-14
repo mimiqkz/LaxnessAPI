@@ -76,8 +76,6 @@ async function query(q, values = []) {
 }
 
 async function comparePasswords(password, hash) {
-  const bhash = await bcrypt.hash(password, 11);
-  console.info(bhash);
   const result = await bcrypt.compare(password, hash);
 
   return result;
