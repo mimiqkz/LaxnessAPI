@@ -7,15 +7,15 @@ const { sanitize } = require('express-validator/filter');
 const validation = [
   check('book')
     .isLength({ min: 1, max: 255 })
-    .withMessage('Title must be a string of length 1 to 255 characters'),
+    .withMessage('Title of book must be a string of length 1 to 255 characters'),
 
   check('quote')
     .custom(e => typeof (e) === 'string')
-    .withMessage('Text must be a string'),
+    .withMessage('quote must be a string'),
 
-  check('year')
-    .isISO8601('year')
-    .withMessage('year must be a ISO 8601 date'),
+  check('chapter')
+    .isLength({ min: 1, max: 255 })
+    .withMessage('chapter must be a string of length 1 to 255 charecters'),
 
   sanitize('book').trim(),
 ];
@@ -30,12 +30,12 @@ const validation = [
  *
  * @returns {Promise} Promise representing the object result of creating the book
  */
-async function create({ book, quote, year } = {}) {
+async function create({ book, quote, chapter } = {}) {
   /* todo útfæra */
   const data = {
     book: xss(book),
     quote: xss(quote),
-    year: xss(year),
+    chapter: xss(chapter),
   };
 
   const query = await db.saveToDb(data);

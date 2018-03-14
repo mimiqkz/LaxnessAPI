@@ -1,0 +1,23 @@
+doctype
+html(lang="is")
+  head
+    meta(charset="utf-8")
+    link(rel="stylesheet" href="styles.css")
+    title=title
+
+  body
+    main
+      .content
+        block content
+
+    footer
+      .user
+        if showLogin
+          if user
+            p Innskráður notandi: #{user}
+            p: a(href="/logout") Útskráning
+            p: a(href="/admin") Stjórnsíða
+          else
+            p.link: a(href="/login") Innskráning
+        else
+          p.link: a(href="/") Forsíða

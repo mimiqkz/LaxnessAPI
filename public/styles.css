@@ -1,0 +1,132 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  html {
+    box-sizing: border-box;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+  
+  body {
+    font-family: Georgia, serif;
+    font-size: 16px;
+    background-color: #eee;
+    color: #333;
+  }
+  
+  p {
+    margin-bottom: 1rem;
+  }
+  
+  a {
+    color: #333;
+  }
+  
+  main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 80vh;
+    margin: 0 auto;
+    padding: 30px;
+  }
+  
+  footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 30px;
+    border-top: 1px solid #333;
+  }
+  
+  .content {
+    margin: auto;
+  }
+  
+  .field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  
+  .field__label {
+    font-size: 2rem;
+    padding-right: 1rem;
+    text-align: left;
+    flex: 1;
+  }
+  
+  .field__input {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 2rem;
+    font-family: Georgia, serif;
+    border: 1px solid #000;
+  }
+  
+  .field--invalid .field__input {
+    border-color: #c66;
+    background-color: #f99;
+  }
+  
+  @media (min-width: 600px) {
+    .field {
+      flex-direction: row;
+      align-items: center;
+    }
+  
+    .field__input {
+      width: auto;
+    }
+  }
+  
+  .form {
+    margin-bottom: 2rem;
+  }
+  
+  .form__button {
+    padding: 0.5rem 1rem;
+    background-color: #ddd;
+    border: 1px solid #000;
+    border-radius: 5px;
+    font-size: 2rem;
+  }
+  
+  .validation {
+    margin-bottom: 2rem;
+  }
+  
+  .validation__item {
+    margin-bottom: 1rem;
+  }
+  
+  .table {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 1rem;
+    border-top: 1px solid #000;
+    border-left: 1px solid #000;
+  }
+  
+  .table th,
+  .table td {
+    text-align: left;
+    padding: 5px;
+    border-bottom: 1px solid #000;
+    border-right: 1px solid #000;
+  }
+  
+  .table th {
+    background-color: #ddd;
+  }
+  
+  .table td {
+    word-break: break-all;
+  }
