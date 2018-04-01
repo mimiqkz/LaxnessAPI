@@ -5,7 +5,9 @@ const util = require('util');
 
 const { Client } = require('pg');
 
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:123@localhost/hugbo';
+const connectionString = 'postgres://postgres:123@localhost:5432/hugbo';
+// DATABASE_URL=postgres://postgres:123@localhost:5432/hopverk
+
 
 const readFileAsync = util.promisify(fs.readFile);
 
@@ -31,7 +33,6 @@ async function query(q) {
 
 async function create() {
   const data = await readFileAsync(schemaFile);
-
   await query(data.toString('utf-8'));
 
   console.info('Schema created');

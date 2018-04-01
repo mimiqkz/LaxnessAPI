@@ -32,9 +32,9 @@ async function createData(req, res) {
   } = req.body;
 
   const data = {
-    name: xss(book),
-    email: xss(quote),
-    ssn: xss(chapter),
+    book: xss(book),
+    quote: xss(quote),
+    chapter: xss(chapter),
   };
 
   const val = validationResult(req);
