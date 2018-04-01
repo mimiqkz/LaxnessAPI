@@ -764,6 +764,7 @@ INSERT INTO quotes (quote, chapter, book, year) VALUES (
 '1946'
 ), (
 ' „Lauslátar konur eru ekki til, sagði organistinn. Það er hjátrú. Afturámóti eru bæði til kvenmenn sem sofa þrjátíu sinnum hjá einum karlmanni og kvenmenn sem sofa einu sinni hjá þrjátíu karlmönnum." 3. kafli.',
+'null',
 'Atómstöðin.',
 '1948'
 ), (
@@ -1148,6 +1149,7 @@ INSERT INTO quotes (quote, chapter, book, year) VALUES (
 '1962'
 ), (
 'Eingin jarðnesk skepna hefur jafn augljósa meðvitund um syndina og hundur.',
+'null',
 'Sjöstafakverið',
 '1964 '
 ), (
