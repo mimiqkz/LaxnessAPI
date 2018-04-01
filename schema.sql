@@ -1,7 +1,19 @@
 DROP TABLE IF EXISTS quotes;
 DROP TABLE IF EXISTS users;
 
+CREATE TABLE quotes (
+  id serial primary key,
+  chapter character varying(225) NOT NULL,
+  book character varying(255) NOT NULL,
+  quote text NOT NULL,
+  year character varying(255),
+);
 
+CREATE TABLE users (
+  id serial primary key,
+  username VARCHAR UNIQUE,
+  password character varying(255) NOT NULL,
+);
 
 INSERT INTO users (username, password) VALUES('admin', '$2a$11$zbNE18do5/UyiP1dnV2JDuOC9RHQvpSI/589vntikTiOIhr6YxF6O' );
 

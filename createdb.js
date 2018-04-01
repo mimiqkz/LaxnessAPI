@@ -5,7 +5,7 @@ const util = require('util');
 
 const { Client } = require('pg');
 
-const connectionString = 'postgres://postgres:123@localhost:5432/hugbo';
+const connectionString = process.env.DATABASE_URL || 'postgres://postgres:123@localhost/hugbo';
 // DATABASE_URL=postgres://postgres:123@localhost:5432/hopverk
 
 
