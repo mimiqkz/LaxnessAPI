@@ -79,7 +79,7 @@ app.locals.isInvalid = (param, errors) => {
   return Boolean(errors.find(i => i.param === param));
 };
 
-app.get('/login', (req, res) => {
+app.get('/', (req, res) => {
   let message = '';
 
   if (req.session.messages && req.session.messages.length > 0) {
@@ -90,10 +90,10 @@ app.get('/login', (req, res) => {
 });
 
 app.post(
-  '/login',
+  '/',
   passport.authenticate('local', {
     failureMessage: 'Vitlaust notendanafn eða lykilorð',
-    failureRedirect: '/login',
+    failureRedirect: '/',
   }),
   (req, res) => {
     res.redirect('/form');
