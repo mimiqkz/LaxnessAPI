@@ -62,7 +62,7 @@ async function updateData(req, res) {
 
   const upd = update(req.params.slug, { book, quote, year });
   if (upd) {
-    return res.json(upd);
+    return res.json(upd[0]);
   }
   return res.json({ error: 'Note not found' });
 }
@@ -90,7 +90,7 @@ router.get('/:slug', async (req, res) => {
   readOne(req.params.slug)
     .then((data) => {
       if (data[0]) {
-        res.json(data);
+        res.json(data[0]);
       } else {
         res.json({ error: 'Note not found' });
       }
