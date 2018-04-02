@@ -6,7 +6,7 @@ block content
   if message
     p= message
 
-  form.form(method='post' action='/login')
+  form.form(method='post' action='/')
     +input('Notendanafn', 'username')
     +input('Lykilorð', 'password')(type='password')
     button.form__button Innskrá

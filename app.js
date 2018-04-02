@@ -96,7 +96,7 @@ app.post(
     failureRedirect: '/',
   }),
   (req, res) => {
-    res.redirect('/form');
+    res.redirect('/api/form');
   },
 );
 
@@ -106,7 +106,7 @@ app.get('/logout', (req, res) => {
 });
 
 app.use(express.json());
-app.use('/', api);
+app.use('/api', api);
 
 function notFoundHandler(req, res, next) { // eslint-disable-line
   res.status(404).json({ error: 'Not found' });

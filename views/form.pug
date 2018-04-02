@@ -7,8 +7,8 @@ block content
       each error in errors
         li.validation__item: label(for=error.param)= error.msg
 
-  form.form(method="post", action="/form")
-    +input('Qoute', 'quote', data.name, isInvalid('quote', errors))
+  form.form(method="post", action="/api/form")
+    +input('Quote', 'quote', data.name, isInvalid('quote', errors))
     +input('Book', 'book', data.book, isInvalid('book', errors))
     +input('Chapter', 'chapter', data.chapter, isInvalid('chapter', errors))
     button.form__button Senda

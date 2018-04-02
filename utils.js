@@ -7,7 +7,7 @@ function ensureLoggedIn(req, res, next) {
     return next();
   }
 
-  return res.redirect('/login');
+  return res.redirect('/');
 }
 
 module.exports = {
