@@ -8,10 +8,9 @@ block content
         li.validation__item: label(for=error.param)= error.msg
 
   form.form(method="post", action="/api/form")
-    +input('Tilvitnun', 'quote', data.name, isInvalid('quote', errors))
-    +input('Bók', 'book', data.book, isInvalid('book', errors))
-    +input('Kaffli', 'chapter', data.chapter, isInvalid('chapter', errors))
-    +input('Ár', 'year', data.year, isInvalid('year', errors))
+    +input('Quote', 'quote', data.name, isInvalid('quote', errors))
+    +input('Book', 'book', data.book, isInvalid('book', errors))
+    +input('Chapter', 'chapter', data.chapter, isInvalid('chapter', errors))
     button.form__button Senda
   a(href="/api/date")
     button.form__button(type="button") Skoða færslur

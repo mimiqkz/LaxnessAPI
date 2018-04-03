@@ -113,19 +113,6 @@ async function del(id) {
   return query;
 }
 
-/**
- * Switch contents between two ids
- * @param {the first switching id} id1
- * @param {the second switching id} id2
- */
-async function switchContent(id1, id2) {
-  const query = await db.runQuery(`UPDATE quotes
-  SET id = (case id when ${id1} then ${id2} when ${id2} then ${id1} else id end)
-  ORDER BY id `);
-  return query;
-}
-
-
 module.exports = {
   validation,
   create,
@@ -133,5 +120,4 @@ module.exports = {
   readOne,
   update,
   del,
-  switchContent,
 };
