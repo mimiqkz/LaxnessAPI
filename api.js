@@ -146,6 +146,4 @@ router.get('/:slug', async (req, res) => {
     .catch(err => console.error(err));
 }, catchErrors());
 
-router.delete('/:slug', ensureLoggedIn, catchErrors(deleteData));
-
 module.exports = router;
