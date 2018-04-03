@@ -53,6 +53,8 @@ async function createData(req, res) {
 
 async function updateData(req, res) {
   const {
+    number = '',
+    chapter = '',
     book = '',
     quote = '',
     year = '',
@@ -63,8 +65,9 @@ async function updateData(req, res) {
     const errorMessages = errors.array().map(i => ({ field: i.param, error: i.msg }));
     return res.status(404).json(errorMessages);
   }
-
-  const upd = update(req.params.slug, { book, quote, year });
+  const upd = update(req.params.slug, {
+    chapter, book, quote, year,
+  });
   if (upd) {
     return res.json(upd[0]);
   }
@@ -93,6 +96,7 @@ async function deleteData(req, res) {
   }
   return res.json({ error: 'Note not found' });
 }
+router.post('/update', ensureLoggedIn, validation, catchErrors(createData));
 router.post('/form', ensureLoggedIn, validation, catchErrors(createData));
 router.get('/form', ensureLoggedIn, (req, res) => {
   const data = {};
@@ -135,7 +139,6 @@ router.get('/:slug', async (req, res) => {
     .catch(err => console.error(err));
 }, catchErrors());
 
-router.put('/:slug', ensureLoggedIn, validation, catchErrors(updateData));
 router.delete('/:slug', ensureLoggedIn, catchErrors(deleteData));
 
 module.exports = router;

@@ -5,6 +5,7 @@ const { check } = require('express-validator/check');
 const { sanitize } = require('express-validator/filter');
 
 const validation = [
+
   check('book')
     .isLength({ min: 1, max: 255 })
     .withMessage('Title of book must be a string of length 1 to 255 characters'),
@@ -88,15 +89,18 @@ async function readOne(id) {
  *
  * @returns {Promise} Promise representing the object result of creating the book
  */
-async function update(id, { book, quote, year } = {}) {
+async function update(id, {
+  chapter, book, quote, year, 
+} = {}) {
   /* todo útfæra */
   const data = {
+    chapter: xss(chapter),
     book: xss(book),
     quote: xss(quote),
     year: xss(year),
   };
   const query = await db.runQuery(`UPDATE quotes
-  SET year = '${data.year}', book = '${data.book}', quote = '${data.quote}'
+  SET year = '${data.year}', book = '${data.book}', quote = '${data.quote}', chapter = '${data.chapter}'
   WHERE id = ${id} RETURNING *`);
   return query;
 }
