@@ -30,12 +30,13 @@ const validation = [
  *
  * @returns {Promise} Promise representing the object result of creating the book
  */
-async function create({ book, quote, chapter } = {}) {
+async function create({ book, quote, chapter, year } = {}) {
   /* todo útfæra */
   const data = {
     book: xss(book),
     quote: xss(quote),
     chapter: xss(chapter),
+    year: xss(year),
   };
 
   const query = await db.saveToDb(data);
