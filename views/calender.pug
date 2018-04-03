@@ -1,0 +1,10 @@
+extends layout
+block content
+
+    each quote in qoutes
+        li.qoute_item: label(for=quote.param)= getDate(2017, quote.id)
+        p= quote.id
+        p= quote.quote
+        p= quote.book
+        p= quote.chapter
+    
