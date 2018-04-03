@@ -8,8 +8,8 @@ async function saveToDb(data) {
 
   await client.connect();
 
-  const q = 'INSERT INTO quotes(book, quote, chapter) VALUES($1, $2, $3 ) RETURNING *';
-  const values = [data.book, data.quote, data.chapter];
+  const q = 'INSERT INTO quotes(book, quote, chapter, year) VALUES($1, $2, $3, $4) RETURNING *';
+  const values = [data.book, data.quote, data.chapter, data.year];
   try {
     const result = await client.query(q, values);
 
@@ -80,6 +80,7 @@ async function comparePasswords(password, hash) {
 
   return result;
 }
+
 async function findByUsername(username) {
   const q = 'SELECT * FROM users WHERE username = $1';
   const result = await query(q, [username]);
