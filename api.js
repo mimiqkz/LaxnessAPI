@@ -14,7 +14,7 @@ const {
 
 let isUpdate = false;
 
-const { ensureLoggedIn } = require('./utils.js');
+const { ensureLoggedIn, getToday } = require('./utils.js');
 
 const router = express.Router();
 
@@ -122,11 +122,7 @@ router.get('/', async (req, res) => {
 router.get('/thanks', thanks);
 
 router.get('/today', async (req, res) => {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 0);
-  const diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
-  const oneDay = 1000 * 60 * 60 * 24;
-  const day = Math.floor(diff / oneDay);
+  const day = getToday();
   readOne(day)
     .then((data) => {
       if (data[0]) {
