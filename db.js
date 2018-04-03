@@ -1,7 +1,7 @@
 const { Client } = require('pg');
 const bcrypt = require('bcrypt');
 
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:123@localhost/hugbo';
+const connectionString = process.env.DATABASE_URL || 'postgres://postgres:1234@localhost/postgres';
 
 async function saveToDb(data) {
   const client = new Client({ connectionString });
@@ -28,7 +28,7 @@ async function fetchData() {
   await client.connect();
 
   try {
-    const result = await client.query('SELECT * FROM quotes');
+    const result = await client.query('SELECT * FROM quotes ORDER BY id');
 
     const { rows } = result;
     return rows;
