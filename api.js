@@ -12,6 +12,8 @@ const {
   del,
 } = require('./notes');
 
+let isUpdate = false;
+
 const { ensureLoggedIn } = require('./utils.js');
 
 const router = express.Router();
@@ -88,6 +90,10 @@ router.get('/date', ensureLoggedIn, (req, res) => {
     }).catch(err => console.error(err));
 });
 
+router.get('/switch', ensureLoggedIn, (req, res) => {
+  isUpdate = !isUpdate;
+  res.render('form', { data: {}, update: isUpdate });
+});
 
 async function deleteData(req, res) {
   const success = await del(req.params.slug);
@@ -96,7 +102,7 @@ async function deleteData(req, res) {
   }
   return res.json({ error: 'Note not found' });
 }
-router.post('/update', ensureLoggedIn, validation, catchErrors(createData));
+
 router.post('/form', ensureLoggedIn, validation, catchErrors(createData));
 router.get('/form', ensureLoggedIn, (req, res) => {
   const data = {};

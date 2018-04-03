@@ -6,14 +6,25 @@ block content
     ul.validation
       each error in errors
         li.validation__item: label(for=error.param)= error.msg
-        
-  p Búa til nýja færslu
-    form.form(method="post", action="/api/form")
+
+  if update 
+    p Upfærra færslu
+    form.form(method="post", action="/api/update")
+      +input('Númer', 'number', data.number, isInvalid('number', errors))
       +input('Tilvitnun', 'quote', data.name, isInvalid('quote', errors))
       +input('Bók', 'book', data.book, isInvalid('book', errors))
       +input('Kafli', 'chapter', data.chapter, isInvalid('chapter', errors))
       +input('Ár', 'year', data.year, isInvalid('year', errors))
       button.form__button Senda
-
-  a(href="/api/update")
-    button.form__button(type="button") Upfærra færslur
+    a(href="/api/switch")
+      button.form__button(type="button") Búa til nýa færslu
+  else  
+    p Búa til nýja færslu
+      form.form(method="post", action="/api/form")
+        +input('Tilvitnun', 'quote', data.name, isInvalid('quote', errors))
+        +input('Bók', 'book', data.book, isInvalid('book', errors))
+        +input('Kafli', 'chapter', data.chapter, isInvalid('chapter', errors))
+        +input('Ár', 'year', data.year, isInvalid('year', errors))
+        button.form__button Senda
+    a(href="/api/switch")
+      button.form__button(type="button") Upfærra færslur
