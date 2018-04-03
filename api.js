@@ -86,6 +86,24 @@ router.get('/', async (req, res) => {
     .catch(err => console.error(err));
 });
 router.get('/thanks', thanks);
+
+router.get('/today', async (req, res) => {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+  const oneDay = 1000 * 60 * 60 * 24;
+  const day = Math.floor(diff / oneDay);
+  readOne(day)
+    .then((data) => {
+      if (data[0]) {
+        res.json(data[0]);
+      } else {
+        res.json({ error: 'Note not found' });
+      }
+    })
+    .catch(err => console.error(err));
+}, catchErrors());
+
 router.get('/:slug', async (req, res) => {
   readOne(req.params.slug)
     .then((data) => {
