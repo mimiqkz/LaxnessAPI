@@ -102,10 +102,6 @@ async function deleteData(req, res) {
   }
   return res.json({ error: 'Note not found' });
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 92e5b9d74f3a14303609ba5bad7d14179fae6ff5
 router.post('/form', ensureLoggedIn, validation, catchErrors(createData));
 router.get('/form', ensureLoggedIn, (req, res) => {
   const data = {};
