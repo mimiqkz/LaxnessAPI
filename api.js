@@ -45,8 +45,10 @@ async function createData(req, res) {
     return res.render('form', { errors, data, title: 'Form' });
   }
 
-  await create({ book, quote, chapter, year });
-  return res.redirect('/thanks');
+  await create({
+    book, quote, chapter, year,
+  });
+  return res.redirect('/api/thanks');
 }
 
 async function updateData(req, res) {
