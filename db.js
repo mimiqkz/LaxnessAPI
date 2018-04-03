@@ -8,11 +8,7 @@ async function saveToDb(data) {
 
   await client.connect();
 
-<<<<<<< HEAD
-  const q = 'INSERT INTO quotes(book, quote, chapter, year) VALUES($1, $2, $3, $4 ) RETURNING *';
-=======
   const q = 'INSERT INTO quotes(book, quote, chapter, year) VALUES($1, $2, $3, $4) RETURNING *';
->>>>>>> 124a6f032e54be343fd18a0c7447d094e3212685
   const values = [data.book, data.quote, data.chapter, data.year];
   try {
     const result = await client.query(q, values);

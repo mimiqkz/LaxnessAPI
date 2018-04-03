@@ -30,7 +30,9 @@ const validation = [
  *
  * @returns {Promise} Promise representing the object result of creating the book
  */
-async function create({ book, quote, chapter, year } = {}) {
+async function create({
+  book, quote, chapter, year,
+} = {}) {
   /* todo útfæra */
   const data = {
     book: xss(book),
