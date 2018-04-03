@@ -65,7 +65,7 @@ async function updateData(req, res) {
     const errorMessages = errors.array().map(i => ({ field: i.param, error: i.msg }));
     return res.status(404).json(errorMessages);
   }
-  const upd = update(req.params.slug, {
+  const upd = update(number, {
     chapter, book, quote, year,
   });
   if (upd) {
@@ -96,9 +96,14 @@ async function deleteData(req, res) {
   }
   return res.json({ error: 'Note not found' });
 }
-router.post('/update', ensureLoggedIn, validation, catchErrors(createData));
 router.post('/form', ensureLoggedIn, validation, catchErrors(createData));
 router.get('/form', ensureLoggedIn, (req, res) => {
+  const data = {};
+  res.render('form', { data, title: 'Form' });
+});
+
+router.post('/update', ensureLoggedIn, validation, catchErrors(updateData));
+router.get('/update', ensureLoggedIn, (req, res) => {
   const data = {};
   res.render('form', { data, title: 'Form' });
 });
