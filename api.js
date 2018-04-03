@@ -29,12 +29,14 @@ async function createData(req, res) {
     book = '',
     quote = '',
     chapter = '',
+    year = '',
   } = req.body;
 
   const data = {
     book: xss(book),
     quote: xss(quote),
     chapter: xss(chapter),
+    year: xss(year),
   };
 
   const val = validationResult(req);
@@ -43,7 +45,7 @@ async function createData(req, res) {
     return res.render('form', { errors, data, title: 'Form' });
   }
 
-  await create({ book, quote, chapter });
+  await create({ book, quote, chapter, year });
   return res.redirect('/thanks');
 }
 
