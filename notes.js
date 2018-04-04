@@ -1,4 +1,3 @@
-/* todo sækja pakka sem vantar  */
 const db = require('./db.js');
 const xss = require('xss');
 const { check } = require('express-validator/check');
@@ -25,6 +24,7 @@ const validation = [
  *
  * @param {Object} book - book to create
  * @param {string} book.book - Title of book
+ * @param {string} book.chapter - Chapter of book
  * @param {string} book.title - Quote of book
  * @param {string} book.year - Year of book
  *
@@ -33,7 +33,6 @@ const validation = [
 async function create({
   book, quote, chapter, year,
 } = {}) {
-  /* todo útfæra */
   const data = {
     book: xss(book),
     quote: xss(quote),
@@ -61,7 +60,7 @@ async function readAll() {
 }
 
 /**
- * Read a single book.
+ * Read a single book by id
  *
  * @param {number} id - Id of book
  *
@@ -83,6 +82,7 @@ async function readOne(id) {
  * @param {number} id - Id of book to update
  * @param {Object} book - book to create
  * @param {string} book.book - Title of book
+ * @param {string} book.chapter - Chapter of the book
  * @param {string} book.quote - Quote of the book
  * @param {string} book.year - year of book
  *
@@ -91,7 +91,6 @@ async function readOne(id) {
 async function update(id, {
   chapter, book, quote, year,
 } = {}) {
-  /* todo útfæra */
   const data = {
     chapter: xss(chapter),
     book: xss(book),

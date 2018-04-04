@@ -7,6 +7,9 @@ block content
       each error in errors
         li.validation__item: label(for=error.param)= error.msg
 
+  a(href="/api/date")
+    button.form__button(type="button") Skoða færslur
+    
   if update 
     p Upfærra færslu
     form.form(method="post", action="/api/update")

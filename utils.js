@@ -19,8 +19,15 @@ function getToday() {
   return day;
 }
 
+function getDate(year, day) {
+  const now = new Date(year, 0);
+  now.setDate(day);
+  return now;
+}
+
 module.exports = {
   catchErrors,
   ensureLoggedIn,
   getToday,
+  getDate,
 };

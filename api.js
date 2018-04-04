@@ -1,8 +1,6 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator/check');
 const xss = require('xss');
-
 
 const {
   validation,
@@ -15,7 +13,7 @@ const {
 
 let isUpdate = false;
 
-const { ensureLoggedIn, getToday } = require('./utils.js');
+const { ensureLoggedIn, getToday, getDate } = require('./utils.js');
 
 const router = express.Router();
 
@@ -76,18 +74,14 @@ async function updateData(req, res) {
   }
   return res.json({ error: 'Note not found' });
 }
-function getDate(year, day) {
-  const now = new Date(year, 0);
-  now.setDate(day);
-  return now;
-}
+
 router.get('/date', ensureLoggedIn, (req, res) => {
   readAll()
     .then((data) => {
       const now = new Date(2018, 0);
       now.setDate(23);
       console.info(now);
-      res.render('calender', { qoutes: data, getDate });
+      res.render('data', { quotes: data, getDate });
     }).catch(err => console.error(err));
 });
 
