@@ -25,8 +25,10 @@ function getToday() {
  * @param {the year} year
  * @param {the day} day
  */
-function getDate(year, day) {
-  const now = new Date(year, 0);
+function getDate(day) {
+  let now = new Date();
+  const year = now.getFullYear();
+  now = new Date(year, 0);
   now.setDate(day);
   return now;
 }
