@@ -75,6 +75,9 @@ async function updateData(req, res) {
   return res.json({ error: 'Note not found' });
 }
 
+/**
+ * Dislay the data according to date
+ */
 router.get('/date', ensureLoggedIn, (req, res) => {
   readAll()
     .then((data) => {
@@ -85,6 +88,9 @@ router.get('/date', ensureLoggedIn, (req, res) => {
     }).catch(err => console.error(err));
 });
 
+/**
+ * Switching between creating and updating new data
+ */
 router.get('/switch', ensureLoggedIn, (req, res) => {
   isUpdate = !isUpdate;
   res.render('form', { data: {}, update: isUpdate });
@@ -109,13 +115,20 @@ router.get('/update', ensureLoggedIn, (req, res) => {
   res.render('form', { data, title: 'Form' });
 });
 
+/**
+ * Get raw data
+ */
 router.get('/', async (req, res) => {
   readAll()
     .then(data => res.json(data))
     .catch(err => console.error(err));
 });
+
 router.get('/thanks', thanks);
 
+/**
+ * Get the quote of today
+ */
 router.get('/today', async (req, res) => {
   const day = getToday();
   readOne(day)
@@ -129,6 +142,9 @@ router.get('/today', async (req, res) => {
     .catch(err => console.error(err));
 }, catchErrors());
 
+/**
+ * Show the quote according to the id input from the slug
+ */
 router.get('/:slug', async (req, res) => {
   readOne(req.params.slug)
     .then((data) => {

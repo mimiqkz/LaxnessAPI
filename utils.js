@@ -1,7 +1,6 @@
-function catchErrors(fn) {
-  return (req, res, next) => fn(req, res, next).catch(next);
-}
-
+/**
+ * Ensure logged in
+ */
 function ensureLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
@@ -9,7 +8,9 @@ function ensureLoggedIn(req, res, next) {
 
   return res.redirect('/');
 }
-
+/**
+ * Get date of today
+ */
 function getToday() {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
@@ -18,7 +19,12 @@ function getToday() {
   const day = Math.floor(diff / oneDay);
   return day;
 }
-
+/**
+ * Get the date of the year according to the number of the day.
+ * F.e 1 will be the 1st of Jan
+ * @param {the year} year
+ * @param {the day} day
+ */
 function getDate(year, day) {
   const now = new Date(year, 0);
   now.setDate(day);
@@ -26,7 +32,6 @@ function getDate(year, day) {
 }
 
 module.exports = {
-  catchErrors,
   ensureLoggedIn,
   getToday,
   getDate,

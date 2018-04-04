@@ -134,6 +134,5 @@ try {
     console.info(`Server running at http://${host}:${port}/`);
   });
 } catch (err) {
-  console.error('here');
   console.error(err);
 }
