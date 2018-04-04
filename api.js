@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator/check');
 const xss = require('xss');
 
@@ -145,5 +146,7 @@ router.get('/:slug', async (req, res) => {
     })
     .catch(err => console.error(err));
 }, catchErrors());
+
+router.delete('/:slug', ensureLoggedIn, catchErrors(deleteData));
 
 module.exports = router;
