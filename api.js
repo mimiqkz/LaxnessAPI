@@ -104,12 +104,17 @@ async function deleteData(req, res) {
   return res.json({ error: 'Note not found' });
 }
 
+router.get('/', async (req, res) => {
+  readAll()
+    .then(data => res.json(data))
+    .catch(err => console.error(err));
+});
 router.route('/form')
   .get(ensureLoggedIn, (req, res) => {
     const data = {};
     res.render('form', { data, title: 'Form' });
   })
-  .post(ensureLoggedIn, validation, catchErrors(createData))
+  .post(ensureLoggedIn, validation, catchErrors(createData));
 
 router.route('/update')
   .get(ensureLoggedIn, (req, res) => {
@@ -118,20 +123,8 @@ router.route('/update')
   })
   .post(ensureLoggedIn, validation, catchErrors(updateData));
 
-/**
- * Get raw data
- */
-router.get('/', async (req, res) => {
-  readAll()
-    .then(data => res.json(data))
-    .catch(err => console.error(err));
-});
-
 router.get('/thanks', thanks);
 
-/**
- * Get the quote of today
- */
 router.get('/today', async (req, res) => {
   const day = getToday();
   readOne(day)
