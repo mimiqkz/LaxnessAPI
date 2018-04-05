@@ -103,17 +103,20 @@ async function deleteData(req, res) {
   }
   return res.json({ error: 'Note not found' });
 }
-router.post('/form', ensureLoggedIn, validation, catchErrors(createData));
-router.get('/form', ensureLoggedIn, (req, res) => {
-  const data = {};
-  res.render('form', { data, title: 'Form' });
-});
 
-router.post('/update', ensureLoggedIn, validation, catchErrors(updateData));
-router.get('/update', ensureLoggedIn, (req, res) => {
-  const data = {};
-  res.render('form', { data, title: 'Form' });
-});
+router.route('/form')
+  .get(ensureLoggedIn, (req, res) => {
+    const data = {};
+    res.render('form', { data, title: 'Form' });
+  })
+  .post(ensureLoggedIn, validation, catchErrors(createData))
+
+router.route('/update')
+  .get(ensureLoggedIn, (req, res) => {
+    const data = {};
+    res.render('form', { data, title: 'Form' });
+  })
+  .post(ensureLoggedIn, validation, catchErrors(updateData));
 
 /**
  * Get raw data
