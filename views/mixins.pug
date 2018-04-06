@@ -1,0 +1,4 @@
+mixin input(label, name, value, invalid)
+  .field(class=invalid ? 'field--invalid' : '')
+    label.field__label(for=name)= label
+    input.field__input(type!=attributes.type || 'text' id=name name=name value=value)
