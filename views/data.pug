@@ -2,7 +2,11 @@ extends layout
 block content
 
     each quote in quotes
+<<<<<<< HEAD
         li: label(for=quote.param)= getDate(quote.id)
+=======
+        li: label(for=quote.param)= getDate(2018, quote.id)
+>>>>>>> 3ab3bb7d6d64c0aa110e907e165029be137a0f8b
         p= quote.id
         p= quote.quote
         p= quote.book

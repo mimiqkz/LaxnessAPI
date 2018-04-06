@@ -15,7 +15,6 @@ CREATE TABLE users (
   password character varying(255) NOT NULL
 );
 
-INSERT INTO users (username, password) VALUES('Gljúfrasteinn', '$2a$10$D.D8c49IY3EmgJ48EygJdeSDfs2PGvsEELI/xxHYfz0lMoUEpUkmK' );
 
 INSERT INTO quotes (quote, chapter, book, year) VALUES (
 'Dáið er alt án drauma og dapur heimurinn.',
