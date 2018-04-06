@@ -103,32 +103,28 @@ async function deleteData(req, res) {
   }
   return res.json({ error: 'Note not found' });
 }
-router.post('/form', ensureLoggedIn, validation, catchErrors(createData));
-router.get('/form', ensureLoggedIn, (req, res) => {
-  const data = {};
-  res.render('form', { data, title: 'Form' });
-});
 
-router.post('/update', ensureLoggedIn, validation, catchErrors(updateData));
-router.get('/update', ensureLoggedIn, (req, res) => {
-  const data = {};
-  res.render('form', { data, title: 'Form' });
-});
-
-/**
- * Get raw data
- */
 router.get('/', async (req, res) => {
   readAll()
     .then(data => res.json(data))
     .catch(err => console.error(err));
 });
+router.route('/form')
+  .get(ensureLoggedIn, (req, res) => {
+    const data = {};
+    res.render('form', { data, title: 'Form' });
+  })
+  .post(ensureLoggedIn, validation, catchErrors(createData));
+
+router.route('/update')
+  .get(ensureLoggedIn, (req, res) => {
+    const data = {};
+    res.render('form', { data, title: 'Form' });
+  })
+  .post(ensureLoggedIn, validation, catchErrors(updateData));
 
 router.get('/thanks', thanks);
 
-/**
- * Get the quote of today
- */
 router.get('/today', async (req, res) => {
   const day = getToday();
   readOne(day)

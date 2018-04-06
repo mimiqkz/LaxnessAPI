@@ -14,7 +14,7 @@ const validation = [
 
   check('chapter')
     .isLength({ min: 1, max: 255 })
-    .withMessage('chapter must be a string of length 1 to 255 charecters'),
+    .withMessage('Reitur: \'kafli\' má ekki vera tómur'),
 
   sanitize('book').trim(),
 ];
