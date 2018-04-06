@@ -22,12 +22,14 @@
   "devDependencies": {
     "eslint": "^4.18.1",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.8.0"
+    "eslint-plugin-import": "^2.8.0",
+    "node-sass": "^4.8.3"
   },
   "scripts": {
     "start": "node app.js",
     "nodemon": "nodemon app.js",
-    "eslint": "eslint *.js **/*.js"
+    "eslint": "eslint *.js **/*.js",
+    "sass": "node-sass public/styles.scss public/styles.css -w"
   },
   "keywords": [],
   "author": "",

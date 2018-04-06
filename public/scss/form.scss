@@ -1,0 +1,84 @@
+@import 'variables';
+
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+
+  &__label {
+    font-size: 1.5rem;
+    padding-right: 1rem;
+    text-align: left;
+    flex: 1;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    font-family: Georgia, serif;
+    border: 1px solid $color-black;
+    background-color: $yellow-tertiary;
+  }
+
+  &--invalid &__input {
+    border-color: #c66;
+    background-color: #f99;
+  }
+
+
+}
+
+@media (min-width: 600px) {
+  .field {
+    flex-direction: row;
+    align-items: center;
+  }
+  .field__input {
+    width: auto;
+  }
+}
+
+.form {
+  margin-bottom: 1rem;
+
+  &__button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+  &__button {
+      margin: 0 auto;
+    padding: 0.5rem 1rem;
+    background-color: $brown-primary;
+    color: $color-white;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    transition: border .2s ease-in-out;
+
+        &:hover {
+        cursor: pointer;
+            outline: none;
+            border: 2px solid $color-black;
+        }
+    }
+}
+
+.invalid {
+   padding: 1rem;
+   background-color: $warning-secondary;
+   color: $color-black;
+   border: 1px solid $warning-primary;
+   border-radius: 10px;
+}
+
+.validation {
+  margin-bottom: 2rem;
+
+  &__item {
+    margin-bottom: 1rem;
+  }
+}

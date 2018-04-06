@@ -2,11 +2,11 @@ extends layout
 include mixins
 
 block content
-
   if message
-    p= message
+    p.invalid= message
 
   form.form(method='post' action='/')
     +input('Notendanafn', 'username')
     +input('Lykilorð', 'password')(type='password')
-    button.form__button Innskrá
+    div.form__button-wrapper
+      button.form__button Innskrá

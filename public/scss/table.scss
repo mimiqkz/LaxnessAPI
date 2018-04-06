@@ -1,0 +1,27 @@
+@import 'variables';
+
+.table {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 1rem;
+  border-top: 1px solid $color-black;
+  border-left: 1px solid $color-black;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 5px;
+  border-bottom: 1px solid $color-black;
+
+  border-right: 1px solid $color-black;
+}
+
+.table th {
+  background-color: $color-grey;
+}
+
+.table td {
+  word-break: break-all;
+}
+
