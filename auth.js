@@ -4,7 +4,7 @@ const express = require('express');
 const passport = require('passport');
 const session = require('express-session');
 const { Strategy } = require('passport-local');
-const users = require('./db');
+const users = require('./dataAccess');
 const login = require('./login');
 
 const app = express();
