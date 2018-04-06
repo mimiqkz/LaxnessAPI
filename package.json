@@ -26,7 +26,7 @@
     "node-sass": "^4.8.3"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "nodemon": "nodemon app.js",
     "eslint": "eslint *.js **/*.js",
     "sass": "node-sass public/styles.scss public/styles.css -w"

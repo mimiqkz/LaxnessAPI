@@ -5,10 +5,9 @@ const router = express.Router();
 
 router.route('/')
   .get((req, res) => {
-    let message = '';
-
+    let message = '';    
     if (req.session.messages && req.session.messages.length > 0) {
-      message = req.session.messages.join(', ');
+      [message] = req.session.messages;
     }
 
     res.render('login', { showLogin: false, message, title: 'Innskráning' });

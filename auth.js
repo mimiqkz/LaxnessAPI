@@ -10,7 +10,6 @@ const login = require('./login');
 const app = express();
 app.use(express.json());
 
-
 const sessionSecret = process.env.SESSION_SECRET || 'fj489jfadkljv';
 
 app.use(session({
@@ -45,11 +44,10 @@ async function strat(username, password, done) {
   } catch (error) {
     done(error);
   }
-
+  
   if (result) {
     return done(null, user);
   }
-
   return done(null, false);
 }
 
