@@ -2,26 +2,21 @@
 
 .table {
   width: 100%;
-  max-width: 800px;
-  margin-bottom: 1rem;
+  max-width: 100rem;
   border-top: 1px solid $color-black;
   border-left: 1px solid $color-black;
+  background-color: $yellow-tertiary;
 }
 
 .table th,
 .table td {
-  text-align: left;
-  padding: 5px;
+  padding: 1rem;
   border-bottom: 1px solid $color-black;
-
   border-right: 1px solid $color-black;
 }
 
 .table th {
-  background-color: $color-grey;
+  background-color: $yellow-primary;
 }
 
-.table td {
-  word-break: break-all;
-}
 

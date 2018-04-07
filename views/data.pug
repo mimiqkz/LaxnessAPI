@@ -1,10 +1,18 @@
 extends layout
+
 block content
 
-    each quote in quotes
-        li: label(for=quote.param)= getDate(2018, quote.id)
-        p= quote.id
-        p= quote.quote
-        p= quote.book
-        p= quote.chapter
-    
+    table.table
+        thead
+            th #
+            th Tilvitnun
+            th Bók
+            th Kafli
+        tbody
+            each quote in quotes
+                tr
+                    td= quote.id
+                    td= quote.quote
+                    td= quote.book
+                    td= quote.chapter
+        

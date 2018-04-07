@@ -22,7 +22,8 @@ body {
 
 .logo {
   height: 30vh;
-  width: auto; }
+  width: auto;
+  border: 1px solid black; }
 
 p {
   margin-bottom: 1rem; }
@@ -47,23 +48,19 @@ footer {
 
 .table {
   width: 100%;
-  max-width: 800px;
-  margin-bottom: 1rem;
+  max-width: 100rem;
   border-top: 1px solid #333;
-  border-left: 1px solid #333; }
+  border-left: 1px solid #333;
+  background-color: #FFE8BE; }
 
 .table th,
 .table td {
-  text-align: left;
-  padding: 5px;
+  padding: 1rem;
   border-bottom: 1px solid #333;
   border-right: 1px solid #333; }
 
 .table th {
-  background-color: #eee; }
-
-.table td {
-  word-break: break-all; }
+  background-color: #FBB818; }
 
 .field {
   display: flex;

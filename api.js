@@ -85,7 +85,7 @@ async function deleteData(req, res) {
   if (result) {
     return res.status(204).json({});
   }
-  
+
   return res.status(404).json({ error: 'Note not found' });
 }
 
