@@ -1,33 +1,33 @@
 extends layout
 include mixins
 block content
-
+  div.image-wrapper
+    img.logo--small(src="/Laxness.svg" alt="logo")
+  include navbar
+  if(update)
+    h2.title Upfærra færslu
+  else
+     h2.title Búa til nýja færslu
   if errors && errors.length > 0
     ul.validation
       each error in errors
         li.validation__item: label(for=error.param)= error.msg
-
-  a(href="/api/date")
-    button.form__button(type="button") Skoða færslur
     
   if update 
-    p Upfærra færslu
+    
     form.form(method="post", action="/api/update")
       +input('Númer', 'number', data.number, isInvalid('number', errors))
       +input('Tilvitnun', 'quote', data.name, isInvalid('quote', errors))
       +input('Bók', 'book', data.book, isInvalid('book', errors))
       +input('Kafli', 'chapter', data.chapter, isInvalid('chapter', errors))
       +input('Ár', 'year', data.year, isInvalid('year', errors))
-      button.form__button Senda
-    a(href="/api/switch")
-      button.form__button(type="button") Búa til nýa færslu
+      div.form__button-wrapper
+        button.button Senda
   else  
-    p Búa til nýja færslu
-      form.form(method="post", action="/api/form")
-        +input('Tilvitnun', 'quote', data.name, isInvalid('quote', errors))
-        +input('Bók', 'book', data.book, isInvalid('book', errors))
-        +input('Kafli', 'chapter', data.chapter, isInvalid('chapter', errors))
-        +input('Ár', 'year', data.year, isInvalid('year', errors))
-        button.form__button Senda
-    a(href="/api/switch")
-      button.form__button(type="button") Upfærra færslur
+    form.form(method="post", action="/api/form")
+      +input('Tilvitnun', 'quote', data.name, isInvalid('quote', errors))
+      +input('Bók', 'book', data.book, isInvalid('book', errors))
+      +input('Kafli', 'chapter', data.chapter, isInvalid('chapter', errors))
+      +input('Ár', 'year', data.year, isInvalid('year', errors))
+      div.form__button-wrapper
+        button.button Senda

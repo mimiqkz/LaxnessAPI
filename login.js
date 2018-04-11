@@ -18,7 +18,7 @@ router.route('/')
       failureRedirect: '/',
     }),
     (req, res) => {
-      res.redirect('/api/form');
+      res.redirect('/api/table');
     },
   );
 

@@ -44,7 +44,7 @@ async function strat(username, password, done) {
   } catch (error) {
     done(error);
   }
-  
+
   if (result) {
     return done(null, user);
   }

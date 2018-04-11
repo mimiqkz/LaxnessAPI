@@ -2,6 +2,8 @@ extends layout
 include mixins
 
 block content
+  div.image-wrapper
+    img.logo(src="/Laxness.svg" alt="logo")
   if message
     p.invalid= message
 
@@ -9,4 +11,4 @@ block content
     +input('Notendanafn', 'username')
     +input('Lykilorð', 'password')(type='password')
     div.form__button-wrapper
-      button.form__button Innskrá
+      button.button Innskrá

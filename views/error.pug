@@ -1,5 +1,11 @@
-p Villa
-p=title
-if err && err.message
-  p=err.message
-pre #{err.stack}
+extends layout
+
+block content
+  div.image-wrapper
+    img.logo--small(src="/Laxness.svg" alt="logo")
+  include navbar
+  p Villa
+  p=title
+  if err && err.message
+    p=err.message
+  pre #{err.stack}

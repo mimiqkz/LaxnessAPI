@@ -1,18 +1,21 @@
 extends layout
 
 block content
-
-    table.table
-        thead
-            th #
-            th Tilvitnun
-            th Bók
-            th Kafli
-        tbody
-            each quote in quotes
-                tr
-                    td= quote.id
-                    td= quote.quote
-                    td= quote.book
-                    td= quote.chapter
+    div.image-wrapper
+        img.logo--small(src="/Laxness.svg" alt="logo")
+    h2.page-title Færslur
+    include navbar
+        table.table
+            thead
+                th #
+                th Tilvitnun
+                th Bók
+                th Kafli
+            tbody
+                each quote in quotes
+                        tr
+                            td= quote.id
+                            td= quote.quote
+                            td= quote.book
+                            td= quote.chapter
         

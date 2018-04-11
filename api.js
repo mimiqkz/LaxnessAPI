@@ -104,7 +104,7 @@ async function readAQuote(req, res, id) {
 /**
  * Dislay the data according to date
  */
-router.get('/date', ensureLoggedIn, (req, res) => {
+router.get('/table', ensureLoggedIn, (req, res) => {
   readAll()
     .then((data) => {
       const now = new Date(2018, 0);
