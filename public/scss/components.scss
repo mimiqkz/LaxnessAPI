@@ -7,6 +7,7 @@
 }
 
 .page-title {
+  margin-bottom: 1rem;
   text-align: center;
   font-size: 2rem;
   text-decoration: underline;
@@ -26,7 +27,6 @@
 .logo {
   height: 30vh;
   width: auto;
-
    &--small {
      height: 20vh;
    }
@@ -40,7 +40,6 @@
   border-radius: 10px;
 }
 
-
 .button {
   padding: 0.5rem 1rem;
   margin: 0 2rem;
@@ -48,9 +47,8 @@
   text-decoration: none;
   background-color: $brown-primary;
   color: $color-white;
-  border: 2px solid transparent;
   border-radius: 10px;
-  transition: box-shadow .2s ease-in-out;
+ transition: box-shadow .2s ease-in-out;
 
   &:hover {
     cursor: pointer;

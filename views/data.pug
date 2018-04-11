@@ -14,7 +14,8 @@ block content
             tbody
                 each quote in quotes
                         tr
-                            td= quote.id
+                            td 
+                                a(href='/api/update/' + quote.id)= quote.id
                             td= quote.quote
                             td= quote.book
                             td= quote.chapter
