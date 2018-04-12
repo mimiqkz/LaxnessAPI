@@ -15,9 +15,6 @@ block content
       each error in errors
         li.validation__item: label(for=error.param)= error.msg
 
-  div.form__button-wrapper
-    a.button(href='/api/update/' + data.id) Endurstilla 
-
   if update 
     form.form(method="post", action='/api/update/' + data.id)
       +input(type='hidden', 'Númer', 'id', data.id, isInvalid('number', errors))
@@ -26,7 +23,8 @@ block content
       +input('Kafli', 'chapter', data.chapter, isInvalid('chapter', errors))
       +input('Ár', 'year', data.year, isInvalid('year', errors))
       div.form__button-wrapper
-        button.button Senda
+        button.button(type='submit') Senda
+        button.button(type='reset') Endurstilla
   else  
     form.form(method="post", action="/api/form")
       +input('Tilvitnun', 'quote', data.name, isInvalid('quote', errors))
@@ -34,4 +32,5 @@ block content
       +input('Kafli', 'chapter', data.chapter, isInvalid('chapter', errors))
       +input('Ár', 'year', data.year, isInvalid('year', errors))
       div.form__button-wrapper
-        button.button Senda
+        button.button(type='submit') Senda
+        button.button(type='reset') Endurstilla
