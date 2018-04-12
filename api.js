@@ -1,6 +1,7 @@
 const express = require('express');
 const { validationResult } = require('express-validator/check');
 const xss = require('xss');
+const querystring = require('querystring');
 
 const {
   validation,
@@ -9,12 +10,7 @@ const {
   del,
   readOne,
   readAll,
-  comparePasswords,
-  findByUsername,
-  findById,
 } = require('./dataAccess');
-
-let isUpdate = false;
 
 const { ensureLoggedIn, getToday, getDate } = require('./utils.js');
 
@@ -24,9 +20,64 @@ function catchErrors(fn) {
   return (req, res, next) => fn(req, res, next).catch(next);
 }
 
-function thanks(req, res) {
-  return res.render('thanks', { title: 'Takk fyrir' });
+async function updateData(req, res) {
+  const {
+    quote = '',
+      chapter = '',
+      book = '',
+      year = '',
+  } = req.body;
+
+  const id = req.params.id;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const errorMessages = errors.array().map(i => ({
+      field: i.param,
+      error: i.msg
+    }));
+    return res.status(404).json(errorMessages);
+  }
+
+  const result = await update(Number(id), {
+    chapter,
+    book,
+    quote,
+    year,
+  });
+
+  if (result) {
+    const query = querystring.stringify({
+      id
+    });
+    return res.redirect(`/api/thanks?${query}`);
+  }
+  return res.json({
+    error: 'Note not found',
+  });
 }
+
+async function deleteData(req, res) {
+  const {
+    id
+  } = req.params;
+  const result = await del(id);
+
+  if (result) {
+    return res.status(204).json({});
+  }
+
+  return res.status(404).json({
+    error: 'Note not found',
+  });
+}
+
+async function readAQuote(id) {
+  const quote = await readOne(id);
+  if (!quote) return { error: 'Tilvitnun fannst ekki ' };
+  return quote;
+}
+
 
 async function createData(req, res) {
   const {
@@ -55,53 +106,9 @@ async function createData(req, res) {
   return res.redirect('/api/thanks');
 }
 
-async function updateData(req, res) {
-  const {
-    quote = '',
-    chapter = '',
-    book = '',
-    year = '',
-  } = req.body;
-
-  const id = req.params.id;
-
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const errorMessages = errors.array().map(i => ({ field: i.param, error: i.msg }));
-    return res.status(404).json(errorMessages);
-  }
-
-  const result = await update(Number(id), {
-    chapter, book, quote, year,
-  });
-
-  if (result) {
-    return res.render('thanks');
-  }
-  return res.json({ error: 'Note not found' });
-}
-
-async function deleteData(req, res) {
-  const { id } = req.params;
-  const result = await del(id);
-
-  if (result) {
-    return res.status(204).json({});
-  }
-
-  return res.status(404).json({ error: 'Note not found' });
-}
-
-async function readAQuote(req, res, id) {
-  readOne(id)
-    .then((data) => {
-      if (data) {
-        res.json(data);
-      } else {
-        return res.status(404).json({ error: 'Note not found' });
-      }
-    })
-    .catch(err => console.error(err));
+async function thanks(req, res) {
+  const quote = await readAQuote(req.query.id);
+  return res.render('thanks', { quote });
 }
 
 /**

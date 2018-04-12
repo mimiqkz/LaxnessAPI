@@ -3,4 +3,16 @@ block content
   div.image-wrapper
     img.logo--small(src="/Laxness.svg" alt="logo")
   include navbar
-  p Takk fyrir skráningu
+  p Tilvitnunin hefur verið skráð
+  table.table
+    thead
+      th #
+      th Tilvitnun
+      th Bók
+      th Kafli
+    tbody
+      tr
+        td= quote.id
+        td= quote.quote
+        td= quote.book
+        td= quote.chapter
