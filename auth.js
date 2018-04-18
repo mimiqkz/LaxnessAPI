@@ -33,7 +33,6 @@ passport.deserializeUser(async (id, done) => {
 
 async function strat(username, password, done) {
   const user = await users.findByUsername(username);
-
   if (!user) {
     return done(null, false);
   }

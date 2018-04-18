@@ -11,12 +11,12 @@ block content
      h2.page-title Búa til nýja færslu
 
   if errors && errors.length > 0
-    ul.validation
+    ul.invalid.validation
       each error in errors
         li.validation__item: label(for=error.param)= error.msg
 
   if update 
-    form.form(method="post", action='/api/update/' + data.id)
+    form.form(method="post", action='/update/' + data.id)
       +input(type='hidden', 'Númer', 'id', data.id, isInvalid('number', errors))
       +input('Tilvitnun', 'quote', data.quote, isInvalid('quote', errors))
       +input('Bók', 'book', data.book, isInvalid('book', errors))
@@ -26,11 +26,11 @@ block content
         button.button(type='submit') Senda
         button.button(type='reset') Endurstilla
   else  
-    form.form(method="post", action="/api/form")
-      +input('Tilvitnun', 'quote', data.name, isInvalid('quote', errors))
-      +input('Bók', 'book', data.book, isInvalid('book', errors))
-      +input('Kafli', 'chapter', data.chapter, isInvalid('chapter', errors))
-      +input('Ár', 'year', data.year, isInvalid('year', errors))
+    form.form(method="post", action="/add")
+      +input('Tilvitnun', 'quote', isInvalid('quote', errors))
+      +input('Bók', 'book', isInvalid('book', errors))
+      +input('Kafli', 'chapter', isInvalid('chapter', errors))
+      +input('Ár', 'year', isInvalid('year', errors))
       div.form__button-wrapper
         button.button(type='submit') Senda
         button.button(type='reset') Endurstilla

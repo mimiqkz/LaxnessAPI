@@ -31,8 +31,13 @@ function getDate(year, day) {
   return now;
 }
 
+function catchErrors(fn) {
+  return (req, res, next) => fn(req, res, next).catch(next);
+}
+
 module.exports = {
   ensureLoggedIn,
   getToday,
   getDate,
+  catchErrors,
 };

@@ -1,8 +1,5 @@
 const { Client } = require('pg');
 const bcrypt = require('bcrypt');
-const xss = require('xss');
-const { check } = require('express-validator/check');
-const { sanitize } = require('express-validator/filter');
 
 const connectionString = process.env.DATABASE_URL || 'postgres://postgres:1234@localhost/postgres';
 
@@ -32,25 +29,6 @@ async function query(sqlQuery, values = []) {
   return result;
 }
 
-const validation = [
-  check('book')
-    .isLength({ min: 1, max: 255 })
-    .withMessage('Title of book must be a string of length 1 to 255 characters'),
-
-  check('quote')
-    .custom(e => typeof (e) === 'string')
-    .withMessage('quote must be a string'),
-
-  check('chapter')
-    .isLength({ min: 1, max: 255 })
-    .withMessage('Reitur: \'kafli\' má ekki vera tómur'),
-
-  sanitize('book').trim(),
-  sanitize('quote').trim(),
-  sanitize('chapter').trim(),
-];
-
-
 /**
  * Quotes part
  *
@@ -64,21 +42,11 @@ const validation = [
  *
  * @returns {Promise} Promise representing the object result of creating the book
  */
-async function create({
-  book, quote, chapter, year,
-} = {}) {
-  const data = {
-    book: xss(book),
-    quote: xss(quote),
-    chapter: xss(chapter),
-    year: xss(year),
-  };
-
-  const q = 'INSERT INTO quotes(book, quote, chapter, year) VALUES($1, $2, $3, $4) RETURNING *';
-  const values = [data.book, data.quote, data.chapter, data.year];
-
-  const result = await query(q, values);
-  return result.rows[0];
+async function create(quote, book, chapter, year) {
+  const q = 'INSERT INTO quotes(quote, book, chapter, year) VALUES($1, $2, $3, $4) RETURNING *';
+  const res = await query(q, [quote, book, chapter, year]);
+  if (res.rowCount === 0) return { status: 500, data: { error: 'Error inserting data' } };
+  return { status: 200, data: res.rows[0] };
 }
 
 /**
@@ -93,22 +61,13 @@ async function create({
  *
  * @returns {Promise} Promise representing the object result of creating the book
  */
-async function update(id, {
-  chapter, book, quote, year,
-} = {}) {
-  const data = {
-    chapter: xss(chapter),
-    book: xss(book),
-    quote: xss(quote),
-    year: xss(year),
-  };
+async function update(id, quote, book, chapter, year) {
   const q = `UPDATE quotes
-  SET chapter = $1, book = $2, quote = $3, year = $4
-  WHERE id = $5 RETURNING *`;
-  const values = [data.chapter, data.book, data.quote, data.year, id];
-
-  const result = await query(q, values);
-  return result.rows[0];
+    SET quote = $1, book = $2, chapter = $3, year = $4
+    WHERE id = $5 RETURNING *`;
+  const res = await query(q, [quote, book, chapter, year, id]);
+  if (res.rowCount === 0) return { status: 404, data: { error: 'Quote not found' } };
+  return { status: 200, data: res.rows[0] };
 }
 
 /**
@@ -120,9 +79,9 @@ async function update(id, {
  */
 async function del(id) {
   const sqlQuery = 'DELETE FROM quotes WHERE id = $1';
-  const result = await query(sqlQuery, [id]);
-
-  return result.rowCount === 1;
+  const res = await query(sqlQuery, [id]);
+  if (res.rowsCount === 0) return { status: 404, data: { error: 'Quote not found' } };
+  return { status: 204, data: res.rows[0] };
 }
 
 /**
@@ -134,14 +93,9 @@ async function del(id) {
  */
 async function readOne(id) {
   const sqlQuery = 'SELECT * FROM quotes WHERE id = $1';
-
-  const result = await query(sqlQuery, [id]);
-
-  if (result.rows.length === 0) {
-    return null;
-  }
-
-  return result.rows[0];
+  const res = await query(sqlQuery, [id]);
+  if (res.rowCount === 0) return { status: 404, data: { error: 'Quote not found' } };
+  return { status: 200, data: res.rows[0] };
 }
 
 /**
@@ -150,11 +104,10 @@ async function readOne(id) {
  * @returns {Promise} Promise representing an array of all book objects
  */
 async function readAll() {
-  /* todo útfæra */
   const sqlQuery = 'SELECT * FROM quotes ORDER BY id';
-  const result = await query(sqlQuery);
-
-  return result.rows;
+  const res = await query(sqlQuery);
+  if (res.rowCount === 0) return { status: 500, data: { error: 'Error reading quotes' } };
+  return { status: 200, data: res.rows };
 }
 
 /**
@@ -189,7 +142,6 @@ async function findById(id) {
 }
 
 module.exports = {
-  validation,
   create,
   update,
   del,

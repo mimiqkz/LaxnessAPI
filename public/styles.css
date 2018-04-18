@@ -39,8 +39,9 @@
   background-color: #B18F4D;
   color: #FFF;
   border-radius: 10px;
+  border: none;
   transition: box-shadow .2s ease-in-out; }
-  .button:hover {
+  .button:hover, .button:focus {
     cursor: pointer;
     outline: none;
     box-shadow: 0 2px 6px 2px #333; }
@@ -136,6 +137,9 @@ footer {
     justify-content: center; }
 
 .validation {
-  margin-bottom: 2rem; }
+  font-weight: bold;
+  list-style: none;
+  text-align: center;
+  margin-bottom: 1rem; }
   .validation__item {
-    margin-bottom: 1rem; }
+    margin-bottom: .5rem; }

@@ -9,8 +9,7 @@ router.route('/')
     if (req.session.messages && req.session.messages.length > 0) {
       [message] = req.session.messages;
     }
-
-    res.render('login', { showLogin: false, message, title: 'Innskráning' });
+    res.render('login', { message });
   })
   .post(
     passport.authenticate('local', {
@@ -18,7 +17,7 @@ router.route('/')
       failureRedirect: '/',
     }),
     (req, res) => {
-      res.redirect('/api/table');
+      res.redirect('/table');
     },
   );
 

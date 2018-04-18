@@ -48,9 +48,11 @@
   background-color: $brown-primary;
   color: $color-white;
   border-radius: 10px;
- transition: box-shadow .2s ease-in-out;
+  border: none;
+  transition: box-shadow .2s ease-in-out;
 
-  &:hover {
+  &:hover,
+  &:focus {
     cursor: pointer;
     outline: none;
     box-shadow: 0 2px 6px 2px $color-black;

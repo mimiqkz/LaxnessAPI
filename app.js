@@ -2,9 +2,10 @@ require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
-const api = require('./api');
 
+const api = require('./api');
 const auth = require('./auth');
+const view = require('./view');
 
 const app = express();
 
@@ -34,8 +35,10 @@ app.locals.isInvalid = (param, errors) => {
 
   return Boolean(errors.find(i => i.param === param));
 };
+
 app.use(auth);
 app.use('/api', api);
+app.use(view);
 
 function notFoundHandler(req, res, next) { // eslint-disable-line
   res.status(404).json({ error: 'Not found' });
