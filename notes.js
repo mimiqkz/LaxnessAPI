@@ -69,6 +69,7 @@ async function readAll() {
 async function readOne(id) {
   /* todo útfæra */
   let query = null;
+  console.info('ping');
   try {
     query = await db.runQuery(`SELECT * FROM quotes WHERE id = ${id}`);
     return query;
