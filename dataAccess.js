@@ -105,7 +105,7 @@ async function update(id, {
   const q = `UPDATE quotes
   SET chapter = $1, book = $2, quote = $3, year = $4
   WHERE id = $5 RETURNING *`;
-  const values = [data.book, data.quote, data.chapter, data.year, id];
+  const values = [data.chapter, data.book, data.quote, data.year, id];
 
   const result = await query(q, values);
   return result.rows[0];

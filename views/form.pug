@@ -1,33 +1,36 @@
 extends layout
 include mixins
 block content
+  div.image-wrapper
+    img.logo--small(src="/Laxness.svg" alt="logo")
+  
+  include navbar
+  if(update)
+    h2.page-title Upfæra færslu
+  else
+     h2.page-title Búa til nýja færslu
 
   if errors && errors.length > 0
     ul.validation
       each error in errors
         li.validation__item: label(for=error.param)= error.msg
 
-  a(href="/api/date")
-    button.form__button(type="button") Skoða færslur
-    
   if update 
-    p Upfærra færslu
-    form.form(method="post", action="/api/update")
-      +input('Númer', 'number', data.number, isInvalid('number', errors))
+    form.form(method="post", action='/api/update/' + data.id)
+      +input(type='hidden', 'Númer', 'id', data.id, isInvalid('number', errors))
+      +input('Tilvitnun', 'quote', data.quote, isInvalid('quote', errors))
+      +input('Bók', 'book', data.book, isInvalid('book', errors))
+      +input('Kafli', 'chapter', data.chapter, isInvalid('chapter', errors))
+      +input('Ár', 'year', data.year, isInvalid('year', errors))
+      div.form__button-wrapper
+        button.button(type='submit') Senda
+        button.button(type='reset') Endurstilla
+  else  
+    form.form(method="post", action="/api/form")
       +input('Tilvitnun', 'quote', data.name, isInvalid('quote', errors))
       +input('Bók', 'book', data.book, isInvalid('book', errors))
       +input('Kafli', 'chapter', data.chapter, isInvalid('chapter', errors))
       +input('Ár', 'year', data.year, isInvalid('year', errors))
-      button.form__button Senda
-    a(href="/api/switch")
-      button.form__button(type="button") Búa til nýa færslu
-  else  
-    p Búa til nýja færslu
-      form.form(method="post", action="/api/form")
-        +input('Tilvitnun', 'quote', data.name, isInvalid('quote', errors))
-        +input('Bók', 'book', data.book, isInvalid('book', errors))
-        +input('Kafli', 'chapter', data.chapter, isInvalid('chapter', errors))
-        +input('Ár', 'year', data.year, isInvalid('year', errors))
-        button.form__button Senda
-    a(href="/api/switch")
-      button.form__button(type="button") Upfærra færslur
+      div.form__button-wrapper
+        button.button(type='submit') Senda
+        button.button(type='reset') Endurstilla

@@ -57,23 +57,26 @@ async function createData(req, res) {
 
 async function updateData(req, res) {
   const {
-    number = '',
+    quote = '',
     chapter = '',
     book = '',
-    quote = '',
     year = '',
   } = req.body;
+
+  const id = req.params.id;
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const errorMessages = errors.array().map(i => ({ field: i.param, error: i.msg }));
     return res.status(404).json(errorMessages);
   }
-  const result = update(number, {
+
+  const result = await update(Number(id), {
     chapter, book, quote, year,
   });
+
   if (result) {
-    return res.status(201).json(result.item);
+    return res.render('thanks');
   }
   return res.json({ error: 'Note not found' });
 }
@@ -85,7 +88,7 @@ async function deleteData(req, res) {
   if (result) {
     return res.status(204).json({});
   }
-  
+
   return res.status(404).json({ error: 'Note not found' });
 }
 
@@ -104,22 +107,14 @@ async function readAQuote(req, res, id) {
 /**
  * Dislay the data according to date
  */
-router.get('/date', ensureLoggedIn, (req, res) => {
+router.get('/table', ensureLoggedIn, (req, res) => {
   readAll()
     .then((data) => {
       const now = new Date(2018, 0);
       now.setDate(23);
       console.info(now);
-      res.render('data', { quotes: data, getDate });
+      res.render('data', { quotes: data, getDate, table: true });
     }).catch(err => console.error(err));
-});
-
-/**
- * Switching between creating and updating new data
- */
-router.get('/switch', ensureLoggedIn, (req, res) => {
-  isUpdate = !isUpdate;
-  res.render('form', { data: {}, update: isUpdate });
 });
 
 router.get('/', async (req, res) => {
@@ -127,19 +122,31 @@ router.get('/', async (req, res) => {
     .then(data => res.json(data))
     .catch(err => console.error(err));
 });
-router.route('/form')
+
+router.route('/add')
   .get(ensureLoggedIn, (req, res) => {
     const data = {};
-    res.render('form', { data, title: 'Form' });
+    res.render('form', { data, title: 'Form', add: true });
   })
   .post(ensureLoggedIn, validation, catchErrors(createData));
 
-router.route('/update')
+
+router.route('/update/:id')
   .get(ensureLoggedIn, (req, res) => {
+    const id = req.params.id;
+    readOne(id)
+      .then((data) => {
+        if (data) {
+          res.render('form', { data, title: 'Form', update: true });
+        } else {
+          return res.status(404).json({ error: 'Note not found' });
+        }
+      })
+      .catch(err => console.error(err));
     const data = {};
-    res.render('form', { data, title: 'Form' });
   })
-  .post(ensureLoggedIn, validation, catchErrors(updateData));
+  .post(ensureLoggedIn, (catchErrors(updateData)));
+
 
 router.get('/thanks', thanks);
 

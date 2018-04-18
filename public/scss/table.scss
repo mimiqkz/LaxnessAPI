@@ -1,0 +1,22 @@
+@import 'variables';
+
+.table {
+  width: 100%;
+  max-width: 100rem;
+  border-top: 1px solid $color-black;
+  border-left: 1px solid $color-black;
+  background-color: $yellow-tertiary;
+}
+
+.table th,
+.table td {
+  padding: 1rem;
+  border-bottom: 1px solid $color-black;
+  border-right: 1px solid $color-black;
+}
+
+.table th {
+  background-color: $yellow-primary;
+}
+
+

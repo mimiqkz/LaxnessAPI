@@ -1,6 +1,6 @@
 extends layout
-block content
 
+<<<<<<< HEAD
     each quote in quotes
 <<<<<<< HEAD
         li: label(for=quote.param)= getDate(quote.id)
@@ -12,3 +12,25 @@ block content
         p= quote.book
         p= quote.chapter
     
+=======
+block content
+    div.image-wrapper
+        img.logo--small(src="/Laxness.svg" alt="logo")
+    h2.page-title Færslur
+    include navbar
+        table.table
+            thead
+                th #
+                th Tilvitnun
+                th Bók
+                th Kafli
+            tbody
+                each quote in quotes
+                        tr
+                            td 
+                                a(href='/api/update/' + quote.id)= quote.id
+                            td= quote.quote
+                            td= quote.book
+                            td= quote.chapter
+        
+>>>>>>> 9319bacafd80737cf054e0f3da616f55b1d7bc40
