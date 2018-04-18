@@ -31,7 +31,7 @@ async function getDailyQuote(req, res) {
 
 router.get('/today', catchErrors(getDailyQuote));
 
-router.route(':/slug')
+router.route('/:slug')
   .get(catchErrors(getQuote))
   .delete(ensureLoggedIn, catchErrors(deleteData));
 
