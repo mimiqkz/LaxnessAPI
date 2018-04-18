@@ -1,7 +1,7 @@
 const { Client } = require('pg');
 const bcrypt = require('bcrypt');
 
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:1234@localhost/postgres';
+const connectionString = process.env.DATABASE_URL || 'postgres://postgres:123@localhost/hugbo';
 
 /**
  * Execute an SQL query.

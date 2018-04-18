@@ -3,9 +3,9 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 
-const api = require('./api');
+const api = require('./routes//api');
 const auth = require('./auth');
-const view = require('./view');
+const view = require('./routes/view');
 
 const app = express();
 
@@ -27,7 +27,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// hjálparfall fyrir view
 app.locals.isInvalid = (param, errors) => {
   if (!errors) {
     return false;

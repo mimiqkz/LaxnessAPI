@@ -1,11 +1,10 @@
 require('dotenv').config();
-
 const express = require('express');
 const passport = require('passport');
 const session = require('express-session');
 const { Strategy } = require('passport-local');
 const users = require('./dataAccess');
-const login = require('./login');
+const login = require('./routes/login');
 
 const app = express();
 app.use(express.json());
