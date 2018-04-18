@@ -4,7 +4,6 @@ block content
   div.image-wrapper
     img.logo--small(src="/Laxness.svg" alt="logo")
   include navbar
-  p Villa
   if err && err.msg
-    p=err.msg
+    p.invalid=err.msg
   pre #{err.stack}

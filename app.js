@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 
-const api = require('./routes//api');
+const api = require('./routes/api');
 const auth = require('./auth');
 const view = require('./routes/view');
 
@@ -40,7 +40,8 @@ app.use('/api', api);
 app.use(view);
 
 function notFoundHandler(req, res, next) { // eslint-disable-line
-  res.status(404).json({ error: 'Not found' });
+  res.render('error', { err: { msg: 'Síða fannst ekki' } });
+  
 }
 
 function errorHandler(err, req, res, next) { // eslint-disable-line
@@ -50,7 +51,7 @@ function errorHandler(err, req, res, next) { // eslint-disable-line
     return res.status(400).json({ error: 'Invalid json' });
   }
 
-  return res.status(500).json({ error: 'Internal server error' });
+  return res('error', { err: { msg: 'Eitthvað fór úrskeiðis!' } });
 }
 
 app.use(notFoundHandler);

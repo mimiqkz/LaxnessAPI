@@ -17,11 +17,11 @@ block content
 
   if update 
     form.form(method="post", action='/update/' + data.id)
-      +input(type='hidden', 'Númer', 'id', data.id, isInvalid('number', errors))
-      +input('Tilvitnun', 'quote', data.quote, isInvalid('quote', errors))
-      +input('Bók', 'book', data.book, isInvalid('book', errors))
-      +input('Kafli', 'chapter', data.chapter, isInvalid('chapter', errors))
-      +input('Ár', 'year', data.year, isInvalid('year', errors))
+      +input(type='hidden', 'Númer', 'id', data.id)
+      +input('Tilvitnun', 'quote', data.quote)
+      +input('Bók', 'book', data.book)
+      +input('Kafli', 'chapter', data.chapter)
+      +input('Ár', 'year', data.year)
       div.form__button-wrapper
         button.button(type='submit') Senda
         button.button(type='reset') Endurstilla
