@@ -41,7 +41,6 @@ app.use(view);
 
 function notFoundHandler(req, res, next) { // eslint-disable-line
   res.render('error', { err: { msg: 'Síða fannst ekki' } });
-  
 }
 
 function errorHandler(err, req, res, next) { // eslint-disable-line

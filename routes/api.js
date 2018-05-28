@@ -1,5 +1,7 @@
 const express = require('express');
 const { ensureLoggedIn, getToday } = require('../utils.js');
+const fs = require('fs');
+const path = require('path');
 
 const {
   rDel,
@@ -28,6 +30,30 @@ async function getQuote(req, res) {
 async function getDailyQuote(req, res) {
   res.redirect(`/api/${getToday()}`);
 }
+
+async function saveImgToDisk(req, res) {
+  let { base64 } = req.body;
+  base64 = base64.replace(/^data:image\/png;base64,/, '');
+  const imageName = `../public/day${getToday()}.png`;
+  try {
+    fs.readFile(path.join(__dirname, 'imageName'),(data) => {
+      console.info(data);
+    });
+  } catch (error) {
+    console.error(error);
+    try {
+      fs.writeFile(path.join(__dirname, imageName), base64, 'base64', () => {
+        console.info('witing to disc', path.join(__dirname, '../public/out.png'));
+      });
+    } catch (err) {
+      console.error('ERROR:', err);
+    }
+  }
+  const imgURL = `${req.get('host')}/api/img/${getToday()}`;
+  res.json({ link: imgURL });
+}
+
+router.post('/img', catchErrors(saveImgToDisk));
 
 router.get('/today', catchErrors(getDailyQuote));
 

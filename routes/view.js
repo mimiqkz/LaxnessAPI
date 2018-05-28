@@ -62,7 +62,7 @@ async function updateData(req, res) {
 
   const val = validationResult(req);
   if (!val.isEmpty()) {
-    const errors = val.array();    
+    const errors = val.array();
     const result = await rReadOne(id);
     return res.render('form', { update: true, errors, data: result.data });
   }
