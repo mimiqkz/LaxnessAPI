@@ -36,18 +36,11 @@ async function saveImgToDisk(req, res) {
   base64 = base64.replace(/^data:image\/png;base64,/, '');
   const imageName = `../public/day${getToday()}.png`;
   try {
-    fs.readFile(path.join(__dirname, imageName), (data) => {
-      console.info(data);
+    fs.writeFile(path.join(__dirname, imageName), base64, 'base64', () => {
+      console.info('witing to disc', path.join(__dirname, imageName));
     });
-  } catch (error) {
-    console.error(error);
-    try {
-      fs.writeFile(path.join(__dirname, imageName), base64, 'base64', () => {
-        console.info('witing to disc', path.join(__dirname, imageName));
-      });
-    } catch (err) {
-      console.error('ERROR:', err);
-    }
+  } catch (err) {
+    console.error('ERROR:', err);
   }
   const imgURL = `${req.get('host')}/api/img/${getToday()}`;
   res.json({ link: imgURL });
@@ -55,7 +48,6 @@ async function saveImgToDisk(req, res) {
 async function renderImage(req, res) {
   const { id } = req.params;
   const imageName = `../public/day${id}.png`;
-  
   try {
     fs.readFile(path.join(__dirname, imageName), () => {
       console.info(`/day${id}.png`);
