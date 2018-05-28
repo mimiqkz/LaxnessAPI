@@ -36,7 +36,7 @@ async function saveImgToDisk(req, res) {
   base64 = base64.replace(/^data:image\/png;base64,/, '');
   const imageName = `../public/day${getToday()}.png`;
   try {
-    fs.readFile(path.join(__dirname, 'imageName'), (data) => {
+    fs.readFile(path.join(__dirname, imageName), (data) => {
       console.info(data);
     });
   } catch (error) {
