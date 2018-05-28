@@ -43,7 +43,7 @@ async function saveImgToDisk(req, res) {
     console.error(error);
     try {
       fs.writeFile(path.join(__dirname, imageName), base64, 'base64', () => {
-        console.info('witing to disc', path.join(__dirname, '../public/out.png'));
+        console.info('witing to disc', path.join(__dirname, imageName));
       });
     } catch (err) {
       console.error('ERROR:', err);
