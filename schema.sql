@@ -143,17 +143,17 @@ INSERT INTO quotes (quote, chapter, book, year) VALUES (
 '1930'
 ), (
 'Hann Eyjólfur segir að það sé ekkert að marka drauma, athugaði telpan. Ég segi að það sé ekkert að marka vökuna, sagði dreingurinn.',
-' 9. kafli.',
+'9. kafli.',
 'Salka. Valka. Þú vínviður hrein',
 '1931'
 ), (
 'Að verða fullorðin er að komast að raun um að maður á ekki móður, heldur vakir einn í myrkri næturinnar.',
-' 7. kafli.',
+'7. kafli.',
 'Salka. Valka. Þú vínviður hrein',
 '1931'
 ), (
 'En trú mér til, barnið gott, það verður einginn ríkur á því að vinna.',
-' 10.kafli.',
+'10.kafli.',
 'Salka. Valka. Þú vínviður hrein',
 '1931'
 ), (
@@ -183,7 +183,7 @@ INSERT INTO quotes (quote, chapter, book, year) VALUES (
 '1931'
 ), (
 '... þegar öllu er á botninn hvolft þá er lífið þó umfram alt saltfiskur en ekki draumaríngl. ',
-' 7. kafli.',
+'7. kafli.',
 'Salka Valka. Fuglinn í fjörunni',
 '1932'
 ), (
@@ -208,7 +208,7 @@ INSERT INTO quotes (quote, chapter, book, year) VALUES (
 '1932'
 ), (
 'Í raun og veru erum við í eðli okkar sú þjóð sem unir sér best í gapastokknum, en hann er aðeins frábrugðinn snörunni í því að dólgurinn tyllir niður tánum',
-' 18. kafli',
+'18. kafli',
 'Salka Valka. Fuglinn í fjörunni',
 '1932'
 ), (
@@ -593,7 +593,7 @@ INSERT INTO quotes (quote, chapter, book, year) VALUES (
 '1940'
 ), (
 'Altaf þegar ég sé og heyri eitthvað fallegt þá fyrirgef ég öllum alt ...',
-' 3.kafli.',
+'3.kafli.',
 'Heimsljós. Fegurð himinsins',
 '1940'
 ), (
@@ -762,8 +762,8 @@ INSERT INTO quotes (quote, chapter, book, year) VALUES (
 'Íslandsklukkan. Eldur í Kaupinhafn',
 '1946'
 ), (
-' „Lauslátar konur eru ekki til, sagði organistinn. Það er hjátrú. Afturámóti eru bæði til kvenmenn sem sofa þrjátíu sinnum hjá einum karlmanni og kvenmenn sem sofa einu sinni hjá þrjátíu karlmönnum." 3. kafli.',
-'null',
+'Lauslátar konur eru ekki til, sagði organistinn. Það er hjátrú. Afturámóti eru bæði til kvenmenn sem sofa þrjátíu sinnum hjá einum karlmanni og kvenmenn sem sofa einu sinni hjá þrjátíu karlmönnum.',
+'3. kafli.',
 'Atómstöðin.',
 '1948'
 ), (
@@ -1062,7 +1062,7 @@ INSERT INTO quotes (quote, chapter, book, year) VALUES (
 'Brekkukotsannáll ',
 '1957'
 ), (
-',,Sá hefur besta kenníngu sem getur sýnt frammá að hann hafi mest að éta; og góða skó.”',
+'Sá hefur besta kenníngu sem getur sýnt frammá að hann hafi mest að éta; og góða skó.',
 '22. kafli',
 'Paradísarheimt',
 '1960 '
@@ -1148,7 +1148,7 @@ INSERT INTO quotes (quote, chapter, book, year) VALUES (
 '1962'
 ), (
 'Eingin jarðnesk skepna hefur jafn augljósa meðvitund um syndina og hundur.',
-'null',
+' ',
 'Sjöstafakverið',
 '1964 '
 ), (
