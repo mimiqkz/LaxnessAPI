@@ -19,16 +19,28 @@ async function deleteData(req, res) {
     .then(data => res.status(data.status).json(data.data))
     .catch(err => console.error(err));
 }
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 
 async function getQuote(req, res) {
   const id = req.params.slug;
   rReadOne(id)
     .then(data => res.status(data.status).json(data.data))
-    .catch(err => console.error(err));
+    .catch(() => res.redirect(`/api/${getRandomInt(282)}`));
 }
 
 async function getDailyQuote(req, res) {
-  res.redirect(`/api/${getToday()}`);
+  rReadOne(getToday())
+    .then((data) => {
+      if (data.status !== 404) {
+        res.status(data.status).json(data.data);
+      } else {
+        res.redirect(`/api/${getRandomInt(282)}`);
+      }
+    })
+    .catch(error => res.status(500).json(error));
 }
 
 async function saveImgToDisk(req, res) {
@@ -63,7 +75,7 @@ router.post('/img', catchErrors(saveImgToDisk));
 
 router.get('/img/:id', catchErrors(renderImage));
 
-router.get('/today', catchErrors(getDailyQuote));
+router.get('/today', getDailyQuote);
 
 router.route('/:slug')
   .get(catchErrors(getQuote))
