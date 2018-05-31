@@ -54,7 +54,7 @@ async function saveImgToDisk(req, res) {
   } catch (err) {
     console.error('ERROR:', err);
   }
-  const imgURL = `${req.get('host')}/api/img/${getToday()}`;
+  const imgURL = `${req.get('host')}/day${getToday()}.png`;
   res.json({ link: imgURL });
 }
 async function renderImage(req, res) {
