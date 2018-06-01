@@ -45,6 +45,9 @@ async function getDailyQuote(req, res) {
 
 async function saveImgToDisk(req, res) {
   let { base64 } = req.body;
+  if (!base64) {
+    return res.json({ error: 'base64 cant be null' });
+  }
   base64 = base64.replace(/^data:image\/png;base64,/, '');
   const imageName = `../public/day${getToday()}.png`;
   try {
@@ -53,9 +56,10 @@ async function saveImgToDisk(req, res) {
     });
   } catch (err) {
     console.error('ERROR:', err);
+    return res.json({ error: err });
   }
   const imgURL = `${req.get('host')}/day${getToday()}.png`;
-  res.json({ link: imgURL });
+  return res.json({ link: imgURL });
 }
 async function renderImage(req, res) {
   const { id } = req.params;
@@ -63,15 +67,15 @@ async function renderImage(req, res) {
   try {
     fs.readFile(path.join(__dirname, imageName), () => {
       console.info(`/day${id}.png`);
-      res.render('image', { image: `/day${id}.png` });
+      return res.render('image', { image: `/day${id}.png` });
     });
   } catch (err) {
-    res.json({ error: 'somthing whent wrong' });
     console.error(err);
+    return res.json({ error: 'somthing whent wrong' });
   }
 }
 
-router.post('/img', catchErrors(saveImgToDisk));
+router.post('/img', (saveImgToDisk));
 
 router.get('/img/:id', catchErrors(renderImage));
 
