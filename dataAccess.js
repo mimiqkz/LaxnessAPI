@@ -1,7 +1,8 @@
 const { Client } = require('pg');
 const bcrypt = require('bcrypt');
 
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:123@localhost/hugbo';
+const connectionString =
+  process.env.DATABASE_URL || 'postgres://postgres:123@localhost/hugbo';
 
 /**
  * Execute an SQL query.
@@ -11,7 +12,7 @@ const connectionString = process.env.DATABASE_URL || 'postgres://postgres:123@lo
  *
  * @returns {Promise} Promise representing the result of the SQL query
  */
-async function query(sqlQuery, values = []) {
+const query = async (sqlQuery, values = []) => {
   const client = new Client({ connectionString });
   await client.connect();
 
@@ -27,7 +28,7 @@ async function query(sqlQuery, values = []) {
   }
 
   return result;
-}
+};
 
 /**
  * Quotes part
@@ -42,12 +43,15 @@ async function query(sqlQuery, values = []) {
  *
  * @returns {Promise} Promise representing the object result of creating the book
  */
-async function create(quote, book, chapter, year) {
-  const q = 'INSERT INTO quotes(quote, book, chapter, year) VALUES($1, $2, $3, $4) RETURNING *';
+const create = async (quote, book, chapter, year) => {
+  const q =
+    'INSERT INTO quotes(quote, book, chapter, year) VALUES($1, $2, $3, $4) RETURNING *';
   const res = await query(q, [quote, book, chapter, year]);
-  if (res.rowCount === 0) return { status: 500, data: { error: 'Error inserting data' } };
+  if (res.rowCount === 0) {
+    return { status: 500, data: { error: 'Error inserting data' } };
+  }
   return { status: 200, data: res.rows[0] };
-}
+};
 
 /**
  * Update a book asynchronously.
@@ -61,14 +65,16 @@ async function create(quote, book, chapter, year) {
  *
  * @returns {Promise} Promise representing the object result of creating the book
  */
-async function update(id, quote, book, chapter, year) {
+const update = async (id, quote, book, chapter, year) => {
   const q = `UPDATE quotes
     SET quote = $1, book = $2, chapter = $3, year = $4
     WHERE id = $5 RETURNING *`;
   const res = await query(q, [quote, book, chapter, year, id]);
-  if (res.rowCount === 0) return { status: 404, data: { error: 'Quote not found' } };
+  if (res.rowCount === 0) {
+    return { status: 404, data: { error: 'Quote not found' } };
+  }
   return { status: 200, data: res.rows[0] };
-}
+};
 
 /**
  * Delete a note asynchronously.
@@ -77,12 +83,14 @@ async function update(id, quote, book, chapter, year) {
  *
  * @returns {Promise} Promise representing the boolean result of creating the note
  */
-async function del(id) {
+const del = async (id) => {
   const sqlQuery = 'DELETE FROM quotes WHERE id = $1';
   const res = await query(sqlQuery, [id]);
-  if (res.rowsCount === 0) return { status: 404, data: { error: 'Quote not found' } };
+  if (res.rowsCount === 0) {
+    return { status: 404, data: { error: 'Quote not found' } };
+  }
   return { status: 204, data: res.rows[0] };
-}
+};
 
 /**
  * Read a single book by id
@@ -91,35 +99,36 @@ async function del(id) {
  *
  * @returns {Promise} Promise representing the book object or null if not found
  */
-async function readOne(id) {
+const readOne = async (id) => {
   const sqlQuery = 'SELECT * FROM quotes WHERE id = $1';
   const res = await query(sqlQuery, [id]);
-  if (res.rowCount === 0) return { status: 404, data: { error: 'Quote not found' } };
+  if (res.rowCount === 0) {
+    return { status: 404, data: { error: 'Quote not found' } };
+  }
   return { status: 200, data: res.rows[0] };
-}
+};
 
 /**
  * Read all quotes.
  *
  * @returns {Promise} Promise representing an array of all book objects
  */
-async function readAll() {
+const readAll = async () => {
   const sqlQuery = 'SELECT * FROM quotes ORDER BY id';
   const res = await query(sqlQuery);
-  if (res.rowCount === 0) return { status: 500, data: { error: 'Error reading quotes' } };
+  if (res.rowCount === 0) {
+    return { status: 500, data: { error: 'Error reading quotes' } };
+  }
   return { status: 200, data: res.rows };
-}
+};
 
 /**
  * User part
  */
-async function comparePasswords(password, hash) {
-  const result = await bcrypt.compare(password, hash);
+const comparePasswords = async (password, hash) =>
+  bcrypt.compare(password, hash);
 
-  return result;
-}
-
-async function findByUsername(username) {
+const findByUsername = async (username) => {
   const q = 'SELECT * FROM users WHERE username = $1';
   const result = await query(q, [username]);
   if (result.rowCount === 1) {
@@ -127,9 +136,9 @@ async function findByUsername(username) {
   }
 
   return null;
-}
+};
 
-async function findById(id) {
+const findById = async (id) => {
   const q = 'SELECT * FROM users WHERE id = $1';
 
   const result = await query(q, [id]);
@@ -139,7 +148,7 @@ async function findById(id) {
   }
 
   return null;
-}
+};
 
 module.exports = {
   create,

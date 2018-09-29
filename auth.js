@@ -30,7 +30,7 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-async function strat(username, password, done) {
+const strat = async (username, password, done) => {
   const user = await users.findByUsername(username);
   if (!user) {
     return done(null, false);
@@ -47,7 +47,7 @@ async function strat(username, password, done) {
     return done(null, user);
   }
   return done(null, false);
-}
+};
 
 passport.use(new Strategy(strat));
 
@@ -55,6 +55,5 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', login);
-
 
 module.exports = app;

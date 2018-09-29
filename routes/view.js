@@ -1,7 +1,7 @@
 const express = require('express');
 const { validationResult } = require('express-validator/check');
 const querystring = require('querystring');
-const { ensureLoggedIn, getDate } = require('../utils.js');
+const { ensureLoggedIn } = require('../utils.js');
 
 const {
   validation,
@@ -17,7 +17,7 @@ function catchErrors(fn) {
   return (req, res, next) => fn(req, res, next).catch(next);
 }
 
-async function createData(req, res) {
+const createData = async (req, res) => {
   const {
     book = '',
     quote = '',
@@ -40,17 +40,17 @@ async function createData(req, res) {
     return res.redirect(`/thanks?${query}`);
   }
   return res.render('error', { err: { msg: result.error } });
-}
+};
 
-async function getAllQuotes(req, res) {
+const getAllQuotes = async (req, res) => {
   const result = await rReadAll();
   if (result.status === 404) {
     return res.render('error', { err: { msg: result.error } });
   }
-  return res.render('data', { quotes: result.data, getDate, table: true });
-}
+  return res.render('data', { quotes: result.data, table: true });
+};
 
-async function updateData(req, res) {
+const updateData = async (req, res) => {
   const {
     quote = '',
     chapter = '',
@@ -79,28 +79,28 @@ async function updateData(req, res) {
     return res.redirect(`/thanks?${query}`);
   }
   return res.render('error', { err: { msg: result.error } });
-}
+};
 
-async function displayUpdateForm(req, res) {
+const displayUpdateForm = async (req, res) => {
   const { id } = req.params;
   const result = await rReadOne(id);
   if (result.status === 404) {
     return res.render('error', { err: { msg: result.error } });
   }
   return res.render('form', { data: result.data, update: true });
-}
+};
 
-async function displayAddForm(req, res) {
+const displayAddForm = (req, res) => {
   res.render('form', { add: true });
-}
+};
 
-async function thanks(req, res) {
+const thanks = async (req, res) => {
   const result = await rReadOne(req.query.id);
   if (result.status === 404) {
     return res.render('error', { err: { msg: result.error } });
   }
   return res.render('thanks', { quote: result.data });
-}
+};
 
 router.route('/add')
   .get(ensureLoggedIn, catchErrors(displayAddForm))

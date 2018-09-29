@@ -3,13 +3,8 @@ const { sanitize } = require('express-validator/filter');
 const xss = require('xss');
 
 const {
-  create,
-  update,
-  del,
-  readOne,
-  readAll,
+  create, update, del, readOne, readAll,
 } = require('./dataAccess');
-
 
 const validation = [
   check('book')
@@ -17,7 +12,7 @@ const validation = [
     .withMessage('Bókatitill má ekki vera tómur'),
 
   check('quote')
-    .custom(value => typeof (value) === 'string')
+    .custom(value => typeof value === 'string')
     .isLength({ min: 1 })
     .withMessage('Tilvitnun má ekki vera tóm'),
 
@@ -30,43 +25,45 @@ const validation = [
   sanitize('chapter').trim(),
 ];
 
-async function rCreate({
+const rCreate = async ({
   book, quote, chapter, year,
-} = {}) {
+} = {}) => {
   const data = {
-    book: xss(book), quote: xss(quote), chapter: xss(chapter), year: xss(year),
+    book: xss(book),
+    quote: xss(quote),
+    chapter: xss(chapter),
+    year: xss(year),
   };
 
   const result = await create(data.quote, data.book, data.chapter, data.year);
   return result;
-}
+};
 
-async function rUpdate(id, {
+const rUpdate = async (id, {
   quote, book, chapter, year,
-} = {}) {
+} = {}) => {
   const data = {
-    book: xss(book), quote: xss(quote), chapter: xss(chapter), year: xss(year),
+    book: xss(book),
+    quote: xss(quote),
+    chapter: xss(chapter),
+    year: xss(year),
   };
 
-  const result = await update(id, data.quote, data.book, data.chapter, data.year);
+  const result = await update(
+    id,
+    data.quote,
+    data.book,
+    data.chapter,
+    data.year,
+  );
   return result;
-}
+};
 
-async function rDel(id) {
-  const result = await del(id);
-  return result;
-}
+const rDel = async id => del(id);
 
-async function rReadOne(id) {
-  const result = await readOne(id);
+const rReadOne = async id => readOne(id);
 
-  return result;
-}
-
-async function rReadAll() {
-  const result = await readAll();
-  return result;
-}
+const rReadAll = async () => readAll();
 
 module.exports = {
   validation,

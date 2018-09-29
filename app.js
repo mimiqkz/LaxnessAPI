@@ -2,11 +2,12 @@ require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
-
 const api = require('./routes/api');
 const auth = require('./auth');
 const view = require('./routes/view');
-
+const schedule = require('node-schedule');
+const { getDate } = require('./utils');
+const { createImage } = require('./imageShare');
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
@@ -36,15 +37,23 @@ app.locals.isInvalid = (param, errors) => {
   return Boolean(errors.find(i => i.param === param));
 };
 
+app.locals.getDate = getDate;
+
 app.use(auth);
 app.use('/api', api);
 app.use(view);
 
-function notFoundHandler(req, res, next) { // eslint-disable-line
-  res.render('error', { err: { msg: 'Síða fannst ekki' } });
-}
+schedule.scheduleJob('0 0 * * *', () => {
+  // do something
+});
 
-function errorHandler(err, req, res, next) { // eslint-disable-line
+const notFoundHandler = (req, res, next) => {
+  // eslint-disable-line
+  res.render('error', { err: { msg: 'Síða fannst ekki' } });
+};
+
+const errorHandler = (err, req, res, next) => {
+  // eslint-disable-line
   console.error(err);
 
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
@@ -52,15 +61,12 @@ function errorHandler(err, req, res, next) { // eslint-disable-line
   }
 
   return res('error', { err: { msg: 'Eitthvað fór úrskeiðis!' } });
-}
+};
 
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-const {
-  PORT: port = 3000,
-  HOST: host = '127.0.0.1',
-} = process.env;
+const { PORT: port = 3000, HOST: host = '127.0.0.1' } = process.env;
 try {
   app.listen(port, () => {
     console.info(`Server running at http://${host}:${port}/`);
