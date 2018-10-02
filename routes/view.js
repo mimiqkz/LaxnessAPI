@@ -5,10 +5,10 @@ const { ensureLoggedIn } = require('../utils.js');
 
 const {
   validation,
-  rCreate,
-  rUpdate,
-  rReadOne,
-  rReadAll,
+  insertQuote,
+  updateQuote,
+  readQuote,
+  readAllQuotes,
 } = require('../middleAccess');
 
 const router = express.Router();
@@ -31,7 +31,7 @@ const createData = async (req, res) => {
     return res.render('form', { add: true, errors });
   }
 
-  const result = await rCreate({
+  const result = await insertQuote({
     quote, book, chapter, year,
   });
 
@@ -43,7 +43,7 @@ const createData = async (req, res) => {
 };
 
 const getAllQuotes = async (req, res) => {
-  const result = await rReadAll();
+  const result = await readAllQuotes();
   if (result.status === 404) {
     return res.render('error', { err: { msg: result.error } });
   }
@@ -63,11 +63,11 @@ const updateData = async (req, res) => {
   const val = validationResult(req);
   if (!val.isEmpty()) {
     const errors = val.array();
-    const result = await rReadOne(id);
+    const result = await readQuote(id);
     return res.render('form', { update: true, errors, data: result.data });
   }
 
-  const result = await rUpdate(Number(id), {
+  const result = await updateQuote(Number(id), {
     chapter,
     book,
     quote,
@@ -83,7 +83,7 @@ const updateData = async (req, res) => {
 
 const displayUpdateForm = async (req, res) => {
   const { id } = req.params;
-  const result = await rReadOne(id);
+  const result = await readQuote(id);
   if (result.status === 404) {
     return res.render('error', { err: { msg: result.error } });
   }
@@ -95,7 +95,7 @@ const displayAddForm = (req, res) => {
 };
 
 const thanks = async (req, res) => {
-  const result = await rReadOne(req.query.id);
+  const result = await readQuote(req.query.id);
   if (result.status === 404) {
     return res.render('error', { err: { msg: result.error } });
   }

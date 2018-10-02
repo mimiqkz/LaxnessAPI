@@ -2,7 +2,7 @@ const { Client } = require('pg');
 const bcrypt = require('bcrypt');
 
 const connectionString =
-  process.env.DATABASE_URL || 'postgres://postgres:123@localhost/hugbo';
+  process.env.DATABASE_URL || 'postgres://postgres:123@localhost/postgres';
 
 /**
  * Execute an SQL query.
@@ -43,7 +43,7 @@ const query = async (sqlQuery, values = []) => {
  *
  * @returns {Promise} Promise representing the object result of creating the book
  */
-const create = async (quote, book, chapter, year) => {
+const INSERT_QUOTE = async (quote, book, chapter, year) => {
   const q =
     'INSERT INTO quotes(quote, book, chapter, year) VALUES($1, $2, $3, $4) RETURNING *';
   const res = await query(q, [quote, book, chapter, year]);
@@ -65,7 +65,7 @@ const create = async (quote, book, chapter, year) => {
  *
  * @returns {Promise} Promise representing the object result of creating the book
  */
-const update = async (id, quote, book, chapter, year) => {
+const UPDATE_QUOTE = async (id, quote, book, chapter, year) => {
   const q = `UPDATE quotes
     SET quote = $1, book = $2, chapter = $3, year = $4
     WHERE id = $5 RETURNING *`;
@@ -83,7 +83,7 @@ const update = async (id, quote, book, chapter, year) => {
  *
  * @returns {Promise} Promise representing the boolean result of creating the note
  */
-const del = async (id) => {
+const DELETE_QUOTE = async (id) => {
   const sqlQuery = 'DELETE FROM quotes WHERE id = $1';
   const res = await query(sqlQuery, [id]);
   if (res.rowsCount === 0) {
@@ -99,7 +99,7 @@ const del = async (id) => {
  *
  * @returns {Promise} Promise representing the book object or null if not found
  */
-const readOne = async (id) => {
+const READ_QUOTE = async (id) => {
   const sqlQuery = 'SELECT * FROM quotes WHERE id = $1';
   const res = await query(sqlQuery, [id]);
   if (res.rowCount === 0) {
@@ -113,7 +113,7 @@ const readOne = async (id) => {
  *
  * @returns {Promise} Promise representing an array of all book objects
  */
-const readAll = async () => {
+const READ_ALL_QUOTES = async () => {
   const sqlQuery = 'SELECT * FROM quotes ORDER BY id';
   const res = await query(sqlQuery);
   if (res.rowCount === 0) {
@@ -121,6 +121,51 @@ const readAll = async () => {
   }
   return { status: 200, data: res.rows };
 };
+
+/**
+ * Insert image as base64
+ *
+ * @returns {Promise} Promise representing an array of image objects
+ */
+const INSERT_IMAGE = async (base64) => {
+  const sqlQuery = 'INSERT INTO screenshot(img) VALUES($1) RETURNING *';
+  const res = await query(sqlQuery, [base64]);
+  if (res.rowCount === 0) {
+    return { status: 500, data: { error: 'Error inserting data' } };
+  }
+  return { status: 200, data: res.rows[0] };
+};
+
+/**
+ * Update a book asynchronously.
+ *
+ * @param {string} base64 - Base64 representation of image
+ * @returns {Promise} Promise representing the object result of updating the image
+ */
+const UPDATE_IMAGE = async (base64) => {
+  const q = `UPDATE screenshot
+    SET img = $1 RETURNING *`;
+  const res = await query(q, [base64]);
+  if (res.rowCount === 0) {
+    return { status: 404, data: { error: 'Image not found' } };
+  }
+  return { status: 200, data: res.rows[0] };
+};
+
+/**
+ * Read image.
+ *
+ * @returns {Promise} Promise representing an array of image
+ */
+const READ_IMAGE = async () => {
+  const sqlQuery = 'SELECT * FROM screenshot LIMIT 1';
+  const res = await query(sqlQuery);
+  if (res.rowCount === 0) {
+    return { status: 500, data: { error: 'Error reading image' } };
+  }
+  return { status: 200, data: res.rows };
+};
+
 
 /**
  * User part
@@ -151,11 +196,14 @@ const findById = async (id) => {
 };
 
 module.exports = {
-  create,
-  update,
-  del,
-  readOne,
-  readAll,
+  INSERT_QUOTE,
+  UPDATE_QUOTE,
+  DELETE_QUOTE,
+  READ_QUOTE,
+  READ_ALL_QUOTES,
+  INSERT_IMAGE,
+  UPDATE_IMAGE,
+  READ_IMAGE,
   comparePasswords,
   findByUsername,
   findById,

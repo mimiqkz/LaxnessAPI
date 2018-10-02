@@ -7,7 +7,8 @@ const auth = require('./auth');
 const view = require('./routes/view');
 const schedule = require('node-schedule');
 const { getDate } = require('./utils');
-const { createImage } = require('./imageShare');
+const { getDailyImage, saveImageToDisk } = require('./imageShare');
+
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
@@ -46,6 +47,14 @@ app.use(view);
 schedule.scheduleJob('0 0 * * *', () => {
   // do something
 });
+
+
+const createImage = async () => {
+  getDailyImage().then(i => saveImageToDisk(i))
+};
+
+createImage().catch(err => console.error('Error creating image', err));
+
 
 const notFoundHandler = (req, res, next) => {
   // eslint-disable-line

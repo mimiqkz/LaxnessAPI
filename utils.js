@@ -1,4 +1,5 @@
 const dateFormat = require('dateformat');
+const { readQuote } = require('./middleAccess');
 
 /**
  * Ensure logged in
@@ -19,13 +20,23 @@ const getToday = () => {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
   const diff =
-    now -
-    start +
-    (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
+    (now -
+      start) +
+    ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
   const oneDay = 1000 * 60 * 60 * 24;
   const day = Math.floor(diff / oneDay);
   return day;
 };
+
+/**
+ * Get corresponding id of today's date
+ */
+const getTodaysQuote = async () => {
+  const today = await getToday();
+  const quote = await readQuote(today);
+  return quote.data;
+};
+
 /**
  * Get the date of the year according to the quote id.
  * F.e Quote with id = 1 will be the 1st of Jan
@@ -46,4 +57,5 @@ module.exports = {
   getToday,
   getDate,
   catchErrors,
+  getTodaysQuote,
 };

@@ -1,4 +1,6 @@
 const { createCanvas, loadImage, registerFont } = require('canvas');
+const { getTodaysQuote } = require('./utils');
+const { readImage, insertImage, updateImage } = require('./middleAccess');
 
 const width = 800;
 const height = 600;
@@ -29,7 +31,7 @@ const formatString = (context, quote) => {
   return formattedQuote;
 };
 
-const createImage = (quote) => {
+const createImage = async (quote) => {
   const textOffset = offset + headerSize + offset;
 
   /* Set up background colour */
@@ -42,8 +44,7 @@ const createImage = (quote) => {
   ctx.fillStyle = 'black';
 
   ctx.font = `${pixelSize}px CormorantGaramond-MediumItalic`;
-
-  const formattedQuote = formatString(ctx, quote);
+  const formattedQuote = formatString(ctx, quote.quote);
   ctx.fillText(formattedQuote, width / 2, textOffset);
 
   const count = formattedQuote.split(/\r\n|\r|\n/).length;
@@ -54,23 +55,39 @@ const createImage = (quote) => {
 
   ctx.fillRect(0, height - 50, width, 50);
 
-  loadImage('./public/laxness.png').then((image) => {
-    ctx.drawImage(image, (width / 2) - (headerSize / 2), offset, headerSize, headerSize);
-    loadImage('./google-play-badge.png').then((badge) => {
-      ctx.drawImage(badge, 5, height - (badge.height * 0.2), badge.width * 0.2, badge.height * 0.2);
-      return canvas.toDataURL();
-    });
-  });
+  const laxnessImg = await loadImage('./public/laxness.png');
+  ctx.drawImage(laxnessImg, (width / 2) - (headerSize / 2), offset, headerSize, headerSize);
+  const badge = await loadImage('./google-play-badge.png');
+  ctx.drawImage(badge, 5, height - (badge.height * 0.2), badge.width * 0.2, badge.height * 0.2);
 
   const bookOffset = authorOffset + pixelSize + (textPadding / 2);
 
   ctx.font = `${pixelSize * 0.7}px CormorantGaramond-Regular`;
 
-  ctx.fillText('Úr 17. kafla, Grikklandsárið, 1978', width / 2, bookOffset);
+  ctx.fillText(`${quote.chapter}: ${quote.book}, ${quote.year}`, width / 2, bookOffset);
+
+  return canvas.toDataURL();
 };
 
-createImage('„Ættjarðarljóð“ fara íslendíngum illa, því eingin  illa, því eingin  illa, því eingin þjóð hefur svo kunnugt sé spilt Íslandi viljandi af annarri eins hörku heimsku og heiftúð og við sjálfir, ekki einusinni danakonúngar')
+const getDailyImage = async () => {
+  const result = await getTodaysQuote();
+  const base = await createImage(result);
+  return base;
+};
+
+const saveImageToDisk = async (image) => {
+  const result = await readImage();
+  if (result.status === 200) {
+    updateImage(image);
+    console.log('Updating image');
+  } else {
+    insertImage(image);
+    console.log('Creating new image');
+  }
+}
 
 module.exports = {
   createImage,
+  getDailyImage,
+  saveImageToDisk
 };

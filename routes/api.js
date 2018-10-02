@@ -5,8 +5,8 @@ const path = require('path');
 const { catchErrors } = require('../utils');
 
 const {
-  rDel,
-  rReadOne,
+  deleteQuote,
+  readQuote,
 } = require('../middleAccess');
 
 const router = express.Router();
@@ -14,7 +14,7 @@ const router = express.Router();
 
 const deleteData = async (req, res) => {
   try {
-    const data = await rDel(req.params);
+    const data = await deleteQuote(req.params);
     res.status(data.status).json(data.data);
   } catch (err) {
     console.error(err);
@@ -26,7 +26,7 @@ const getRandomInt = max => Math.floor(Math.random() * Math.floor(max));
 const getQuote = async (req, res) => {
   const id = req.params.slug;
   try {
-    const quote = await rReadOne(id);
+    const quote = await readQuote(id);
     return res.status(quote.status).json(quote.data);
   } catch (err) {
     res.status(500).json(err);
@@ -35,7 +35,7 @@ const getQuote = async (req, res) => {
 };
 
 async function getDailyQuote(req, res) {
-  rReadOne(getToday())
+  readQuote(getToday())
     .then((data) => {
       if (data.status !== 404) {
         res.status(data.status).json(data.data);

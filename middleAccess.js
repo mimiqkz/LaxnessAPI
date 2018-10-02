@@ -3,7 +3,7 @@ const { sanitize } = require('express-validator/filter');
 const xss = require('xss');
 
 const {
-  create, update, del, readOne, readAll,
+  INSERT_QUOTE, UPDATE_QUOTE, DELETE_QUOTE, READ_QUOTE, READ_ALL_QUOTES, INSERT_IMAGE, UPDATE_IMAGE, READ_IMAGE,
 } = require('./dataAccess');
 
 const validation = [
@@ -25,7 +25,7 @@ const validation = [
   sanitize('chapter').trim(),
 ];
 
-const rCreate = async ({
+const insertQuote = async ({
   book, quote, chapter, year,
 } = {}) => {
   const data = {
@@ -35,11 +35,11 @@ const rCreate = async ({
     year: xss(year),
   };
 
-  const result = await create(data.quote, data.book, data.chapter, data.year);
+  const result = await INSERT_QUOTE(data.quote, data.book, data.chapter, data.year);
   return result;
 };
 
-const rUpdate = async (id, {
+const updateQuote = async (id, {
   quote, book, chapter, year,
 } = {}) => {
   const data = {
@@ -49,7 +49,7 @@ const rUpdate = async (id, {
     year: xss(year),
   };
 
-  const result = await update(
+  const result = await UPDATE_QUOTE(
     id,
     data.quote,
     data.book,
@@ -59,17 +59,32 @@ const rUpdate = async (id, {
   return result;
 };
 
-const rDel = async id => del(id);
+const deleteQuote = async id => DELETE_QUOTE(id);
 
-const rReadOne = async id => readOne(id);
+const readQuote = async id => READ_QUOTE(id);
 
-const rReadAll = async () => readAll();
+const readAllQuotes = async () => READ_ALL_QUOTES();
+
+const insertImage = async ({ base64 } = {}) => {
+  const result = await INSERT_IMAGE(xss(base64));
+  return result;
+};
+
+const updateImage = async ({ base64 } = {}) => {
+  const result = await UPDATE_IMAGE(xss(base64));
+  return result;
+};
+
+const readImage = async () => READ_IMAGE();
 
 module.exports = {
   validation,
-  rCreate,
-  rUpdate,
-  rDel,
-  rReadOne,
-  rReadAll,
+  insertQuote,
+  updateQuote,
+  deleteQuote,
+  readQuote,
+  readAllQuotes,
+  insertImage,
+  updateImage,
+  readImage,
 };
