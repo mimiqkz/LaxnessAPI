@@ -45,17 +45,15 @@ app.use(auth);
 app.use('/api', api);
 app.use(view);
 
-schedule.scheduleJob('0 0 * * *', () => {
-  // do something
-});
-
-
 const createImage = async () => {
-  getDailyImage().then(i => saveImageToDisk(i));
+  getDailyImage().then(i => saveImageToDisk(i)).catch(err => console.error('Error creating image', err));
 };
 
-createImage().catch(err => console.error('Error creating image', err));
+createImage();
 
+schedule.scheduleJob('0 0 * * *', () => {
+  createImage();
+});
 
 const notFoundHandler = (req, res, next) => {
   // eslint-disable-line
