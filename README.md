@@ -2,6 +2,8 @@
 
 This is an API created for the Laxness group project. The [project](https://github.com/mimiqkz/Laxness/) is in the partnership with Gljúfrasteinn.
 
+**The API will soon be re-designed to use React framework**
+
 ## Author
 
 [Nu Phan Quynh Do](https://github.com/mimiqkz/) <br>
