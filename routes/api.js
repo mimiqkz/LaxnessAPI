@@ -1,6 +1,5 @@
 const express = require('express');
 const { ensureLoggedIn, getToday } = require('../utils.js');
-const fs = require('fs');
 const path = require('path');
 const { catchErrors } = require('../utils');
 
@@ -10,7 +9,6 @@ const {
 } = require('../middleAccess');
 
 const router = express.Router();
-
 
 const deleteData = async (req, res) => {
   try {
@@ -34,8 +32,9 @@ const getQuote = async (req, res) => {
   return res.redirect(`/api/${getRandomInt(282)}`);
 };
 
-async function getDailyQuote(req, res) {
-  readQuote(getToday())
+const getDailyQuote = async (req, res) => {
+  const today = await getToday();
+  readQuote(today)
     .then((data) => {
       if (data.status !== 404) {
         res.status(data.status).json(data.data);
@@ -44,46 +43,16 @@ async function getDailyQuote(req, res) {
       }
     })
     .catch(error => res.status(500).json(error));
-}
-
-const saveImgToDisk = async (req, res) => {
-  let { base64 } = req.body;
-  const imgURL = `${req.get('host')}/day${getToday()}.png`;
-  if (!base64) {
-    return res.json({ error: 'base64 cant be null', link: imgURL });
-  }
-  base64 = base64.replace(/^data:image\/png;base64,/, '');
-  const imageName = `../public/day${getToday()}.png`;
-  try {
-    fs.writeFile(path.join(__dirname, imageName), base64, 'base64', () => {
-      console.info('witing to disc', path.join(__dirname, imageName));
-    });
-  } catch (err) {
-    console.error('ERROR:', err);
-    return res.json({ error: err, link: imgURL });
-  }
-  return res.json({ link: imgURL });
 };
 
-const renderImage = async (req, res) => {
-  const { id } = req.params;
-  const imageName = `../public/day${id}.png`;
-  try {
-    fs.readFile(path.join(__dirname, imageName), () => {
-      console.info(`/day${id}.png`);
-      return res.render('image', { image: `/day${id}.png` });
-    });
-  } catch (err) {
-    console.error(err);
-    return res.json({ error: 'somthing whent wrong' });
-  }
+const sendImage = async (req, res) => {
+  const imageName = '../quote.png';
+  res.sendFile(path.join(__dirname, imageName));
 };
 
-router.post('/img', (saveImgToDisk));
+router.get('/img', catchErrors(sendImage));
 
-router.get('/img/:id', catchErrors(renderImage));
-
-router.get('/today', getDailyQuote);
+router.get('/today', catchErrors(getDailyQuote));
 
 router.route('/:slug')
   .get(catchErrors(getQuote))

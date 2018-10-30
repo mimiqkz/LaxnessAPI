@@ -123,51 +123,6 @@ const READ_ALL_QUOTES = async () => {
 };
 
 /**
- * Insert image as base64
- *
- * @returns {Promise} Promise representing an array of image objects
- */
-const INSERT_IMAGE = async (base64) => {
-  const sqlQuery = 'INSERT INTO screenshot(img) VALUES($1) RETURNING *';
-  const res = await query(sqlQuery, [base64]);
-  if (res.rowCount === 0) {
-    return { status: 500, data: { error: 'Error inserting data' } };
-  }
-  return { status: 200, data: res.rows[0] };
-};
-
-/**
- * Update a book asynchronously.
- *
- * @param {string} base64 - Base64 representation of image
- * @returns {Promise} Promise representing the object result of updating the image
- */
-const UPDATE_IMAGE = async (base64) => {
-  const q = `UPDATE screenshot
-    SET img = $1 RETURNING *`;
-  const res = await query(q, [base64]);
-  if (res.rowCount === 0) {
-    return { status: 404, data: { error: 'Image not found' } };
-  }
-  return { status: 200, data: res.rows[0] };
-};
-
-/**
- * Read image.
- *
- * @returns {Promise} Promise representing an array of image
- */
-const READ_IMAGE = async () => {
-  const sqlQuery = 'SELECT * FROM screenshot LIMIT 1';
-  const res = await query(sqlQuery);
-  if (res.rowCount === 0) {
-    return { status: 500, data: { error: 'Error reading image' } };
-  }
-  return { status: 200, data: res.rows };
-};
-
-
-/**
  * User part
  */
 const comparePasswords = async (password, hash) =>
@@ -201,9 +156,6 @@ module.exports = {
   DELETE_QUOTE,
   READ_QUOTE,
   READ_ALL_QUOTES,
-  INSERT_IMAGE,
-  UPDATE_IMAGE,
-  READ_IMAGE,
   comparePasswords,
   findByUsername,
   findById,

@@ -1,14 +1,16 @@
 const { createCanvas, loadImage, registerFont } = require('canvas');
 const { getTodaysQuote } = require('./utils');
-const { readImage, insertImage, updateImage } = require('./middleAccess');
+const fs = require('fs');
 
-const width = 800;
-const height = 600;
-const pixelSize = 30;
-const headerSize = 200;
-const offset = 30;
-const horizontalPadding = 100;
-const textPadding = 25;
+// Control image size and proportions by width, retains aspect ratio of 16:9
+const width = 600;
+const height = (width / 16) * 9;
+
+const textSize = width * (30 / 1000);
+const headerSize = width * 0.2;
+const offset = width * (30 / 1000);
+const horizontalPadding = width * 0.2;
+const textPadding = textSize / 6;
 
 registerFont('./font/CormorantGaramond-MediumItalic.ttf', { family: 'CormorantGaramond-MediumItalic' });
 registerFont('./font/CormorantGaramond-Regular.ttf', { family: 'CormorantGaramond-Regular' });
@@ -19,13 +21,13 @@ const ctx = canvas.getContext('2d');
 const formatString = (context, quote) => {
   const words = quote.trim().split(/\s+/);
   let temp = '';
-  let formattedQuote = '';
+  let formattedQuote = '„';
   for (let i = 0; i < words.length; i += 1) {
     if (context.measureText(temp.concat(words[i].concat(' '))).width >= width - (horizontalPadding * 2)) {
       formattedQuote += temp.concat('\n');
       temp = '';
     }
-    temp += words[i].concat(' ');
+    temp += (i !== words.length - 1) ? words[i].concat(' ') : words[i].concat('“');
   }
   formattedQuote += temp;
   return formattedQuote;
@@ -43,28 +45,31 @@ const createImage = async (quote) => {
   ctx.textBaseline = 'top';
   ctx.fillStyle = 'black';
 
-  ctx.font = `${pixelSize}px CormorantGaramond-MediumItalic`;
+  ctx.font = `${textSize}px CormorantGaramond-MediumItalic`;
   const formattedQuote = formatString(ctx, quote.quote);
   ctx.fillText(formattedQuote, width / 2, textOffset);
 
   const count = formattedQuote.split(/\r\n|\r|\n/).length;
-  const authorOffset = textOffset + pixelSize + pixelSize + (textPadding * count);
+  const authorOffset = textOffset + (count * (textSize + textPadding)) + offset;
 
-  ctx.font = `${pixelSize}px CormorantGaramond-Regular`;
+  ctx.font = `${textSize}px CormorantGaramond-Regular`;
   ctx.fillText('\u2014 Halldór Laxness', width - (ctx.measureText('\u2014 Halldór Laxness').width / 2) - horizontalPadding, authorOffset);
-
-  ctx.fillRect(0, height - 50, width, 50);
 
   const laxnessImg = await loadImage('./public/laxness.png');
   ctx.drawImage(laxnessImg, (width / 2) - (headerSize / 2), offset, headerSize, headerSize);
-  const badge = await loadImage('./google-play-badge.png');
-  ctx.drawImage(badge, 5, height - (badge.height * 0.2), badge.width * 0.2, badge.height * 0.2);
 
-  const bookOffset = authorOffset + pixelSize + (textPadding / 2);
+  const bookOffset = authorOffset + textSize + (textPadding / 2) + (offset / 2);
 
-  ctx.font = `${pixelSize * 0.7}px CormorantGaramond-Regular`;
+
+  ctx.font = `${textSize * 0.7}px CormorantGaramond-Regular`;
 
   ctx.fillText(`${quote.chapter}: ${quote.book}, ${quote.year}`, width / 2, bookOffset);
+
+  // Border at the bottom indicating where to get the app
+  // ctx.fillRect(0, height - (height * 0.1), width, height * 0.1);
+
+  //  const badge = await loadImage('./images/google-play-badge.png');
+  //  ctx.drawImage(badge, offset, 0, badge.width * 0.1, badge.height * 0.1);
 
   return canvas.toDataURL();
 };
@@ -76,18 +81,15 @@ const getDailyImage = async () => {
 };
 
 const saveImageToDisk = async (image) => {
-  const result = await readImage();
-  if (result.status === 200) {
-    updateImage(image);
-    console.log('Updating image');
-  } else {
-    insertImage(image);
-    console.log('Creating new image');
-  }
-}
+  const base64Image = image.split(',').pop();
+  fs.writeFile('./public/quote.png', base64Image, { encoding: 'base64' }, (err) => {
+    if (err) console.error(err);
+    else console.info('Image created successfully');
+  });
+};
 
 module.exports = {
   createImage,
   getDailyImage,
-  saveImageToDisk
+  saveImageToDisk,
 };

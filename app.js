@@ -17,6 +17,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use(express.static(path.join(__dirname, '/public')));
+app.use('/static', express.static(path.join(__dirname, '/public')));
 
 app.use(express.json());
 
@@ -50,7 +51,7 @@ schedule.scheduleJob('0 0 * * *', () => {
 
 
 const createImage = async () => {
-  getDailyImage().then(i => saveImageToDisk(i))
+  getDailyImage().then(i => saveImageToDisk(i));
 };
 
 createImage().catch(err => console.error('Error creating image', err));

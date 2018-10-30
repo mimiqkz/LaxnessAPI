@@ -2,7 +2,6 @@ DROP TABLE IF EXISTS quotes;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS screenshot;
 
-
 CREATE TABLE quotes (
   id serial primary key,
   chapter character varying(225) NOT NULL,
@@ -15,10 +14,6 @@ CREATE TABLE users (
   id serial primary key,
   username VARCHAR UNIQUE,
   password character varying(255) NOT NULL
-);
-
-CREATE TABLE screenshot (
-  img bytea 
 );
 
 INSERT INTO quotes (quote, chapter, book, year) VALUES (

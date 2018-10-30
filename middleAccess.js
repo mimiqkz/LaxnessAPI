@@ -3,7 +3,8 @@ const { sanitize } = require('express-validator/filter');
 const xss = require('xss');
 
 const {
-  INSERT_QUOTE, UPDATE_QUOTE, DELETE_QUOTE, READ_QUOTE, READ_ALL_QUOTES, INSERT_IMAGE, UPDATE_IMAGE, READ_IMAGE,
+  INSERT_QUOTE, UPDATE_QUOTE, DELETE_QUOTE, READ_QUOTE,
+  READ_ALL_QUOTES, INSERT_IMAGE, UPDATE_IMAGE, READ_IMAGE,
 } = require('./dataAccess');
 
 const validation = [
@@ -65,13 +66,13 @@ const readQuote = async id => READ_QUOTE(id);
 
 const readAllQuotes = async () => READ_ALL_QUOTES();
 
-const insertImage = async ({ base64 } = {}) => {
-  const result = await INSERT_IMAGE(xss(base64));
+const insertImage = async (base64) => {
+  const result = await INSERT_IMAGE(base64);
   return result;
 };
 
-const updateImage = async ({ base64 } = {}) => {
-  const result = await UPDATE_IMAGE(xss(base64));
+const updateImage = async (base64) => {
+  const result = await UPDATE_IMAGE(base64);
   return result;
 };
 

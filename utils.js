@@ -1,5 +1,5 @@
 const dateFormat = require('dateformat');
-const { readQuote } = require('./middleAccess');
+const { readQuote, readAllQuotes } = require('./middleAccess');
 
 /**
  * Ensure logged in
@@ -16,7 +16,7 @@ const ensureLoggedIn = (req, res, next) => {
 /**
  * Get corresponding id of today's date
  */
-const getToday = () => {
+const getToday = async () => {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
   const diff =
@@ -24,7 +24,11 @@ const getToday = () => {
       start) +
     ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
   const oneDay = 1000 * 60 * 60 * 24;
-  const day = Math.floor(diff / oneDay);
+  let day = Math.floor(diff / oneDay);
+  const allQuotes = await readAllQuotes();
+  if (day > allQuotes.data.length) {
+    day = Math.abs(day - allQuotes.data.length);
+  }
   return day;
 };
 
@@ -34,6 +38,7 @@ const getToday = () => {
 const getTodaysQuote = async () => {
   const today = await getToday();
   const quote = await readQuote(today);
+
   return quote.data;
 };
 
